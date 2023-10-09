@@ -8,12 +8,12 @@
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "pontual",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/pontual",
+            "outputPath": "dist/pontual/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -90,6 +90,69 @@
               "src/styles.css"
             ],
             "scripts": []
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/pontual/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "pontual:build:development",
+              "serverTarget": "pontual:server:development"
+            },
+            "production": {
+              "browserTarget": "pontual:build:production",
+              "serverTarget": "pontual:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "pontual:build:production",
+              "serverTarget": "pontual:server:production"
+            },
+            "development": {
+              "browserTarget": "pontual:build:development",
+              "serverTarget": "pontual:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2,
+            "browserTarget": "pontual:build:production",
+            "serverTarget": "pontual:server:production",
+            "prerenderTarget": "pontual:prerender:production"
           }
         }
       }

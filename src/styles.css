@@ -1,1 +1,89 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('assets/fonts/space-grotesk/SpaceGrotesk-Light.ttf');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('assets/fonts/space-grotesk/SpaceGrotesk-Regular.ttf');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('assets/fonts/space-grotesk/SpaceGrotesk-Medium.ttf');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('assets/fonts/space-grotesk/SpaceGrotesk-SemiBold.ttf');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('assets/fonts/space-grotesk/SpaceGrotesk-Bold.ttf');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('assets/fonts/inter/Inter-Regular-400.ttf');
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('assets/fonts/inter/Inter-Medium-500.ttf');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('assets/fonts/inter/Inter-SemiBold-600.ttf');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('assets/fonts/inter/Inter-Bold-700.ttf');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('assets/fonts/inter/Inter-ExtraBold-800.ttf');
+    font-weight: 800;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('assets/fonts/inter/Inter-Black-900.ttf');
+    font-weight: 900;
+}
+
+
+*{
+    font-family: 'Space Grotesk';
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root{
+    --max-w: 85%;
+}
+
+.limited-container{
+    max-width: 100%;
+    margin: 0px auto;
+}
+@media screen and (min-width: 1280px) {
+    .limited-container{
+        max-width: var(--max-w);
+    }
+}

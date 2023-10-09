@@ -1,8 +1,12 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CoreModule } from '@core/core.module';
+
+import localeAO from '@angular/common/locales/pt-AO';
+import { registerLocaleData } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -10,9 +14,14 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CoreModule,
+    // registerLocaleData(localeAO, 'pt'),
   ],
-  providers: [],
+  providers: [
+    provideClientHydration(),
+    // { provide: LOCALE_ID, useValue: 'pt' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
