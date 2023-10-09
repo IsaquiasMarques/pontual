@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "gh-pages:build": "ng build --output-path docs --base-href https://isaquiasmarques.github.io/pontual", 
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "dev:ssr": "ng run pontual:serve-ssr",
