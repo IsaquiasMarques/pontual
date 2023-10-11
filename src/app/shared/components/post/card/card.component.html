@@ -1,0 +1,50 @@
+<div class="card-tall" *ngIf="this.cardType == 'tall'; else short">
+    
+</div>
+
+<ng-template #short>
+    <div class="card-short my-8 py-4 border-y border-[#EEEEEE99] border-opacity-[60%] flex gap-3 justify-between items-stretch">
+        <div class="post-descriptions w-[17.438rem]">
+            <div class="post-category">
+                <pontual-chip
+                [bgColor]="'primary'"
+                [bgOpacity]="'bg-opacity-[0.05]'"
+                [textColor]="'primary'"
+                [icon]="true"
+                [iconColor]="'#D3352A'"
+                [label]="this.postCategory"
+                [gap]="'gap-2'"
+                />
+            </div>
+            <div class="post-title my-4">
+                <h1 class="card-short-main-title text-secondary text-base font-bold leading-6">
+                    <a routerLink="/home">
+                        {{ this.postTitle }}
+                    </a>
+                </h1>
+            </div>
+            <div class="post-details flex justify-between items-center">
+                <div class="author">
+                    <p class=" text-sm tracking-[0.42px]">
+                        {{ this.postAuthor }}
+                    </p>
+                </div>
+                <div class="created-at">
+                    <p class=" text-sm tracking-[0.42px]">
+                        {{ this.postCreatedAt }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div
+        *ngIf="this.postImagePath"
+        class="post-image w-[7.688rem] rounded-[4px] overflow-hidden"
+        >
+            <a routerLink="/home">
+                <img
+                class="w-full h-full object-cover object-center"
+                src="{{ this.postImagePath }}" alt="">
+            </a>
+        </div>
+    </div>
+</ng-template>
