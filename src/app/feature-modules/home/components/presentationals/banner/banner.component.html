@@ -1,0 +1,23 @@
+<div class="banner-content flex justify-between items-stretch gap-x-16">
+    <section class="carousel w-full h-full xl:max-w-[var(--max-w-1280)] xl-1440:max-w-[var(--max-w-1440)]">
+        <pontual-carousel />
+    </section>
+    <section class="vertical-list w-[60%]">
+        <div class="main-title mb-6">
+            <h1 class=" text-xl font-medium leading-8 tracking-[0.6px] text-[#121212]">
+                Melhores notícias em destaques
+            </h1>
+        </div>
+        <div class="best-highlight-posts">
+            <pontual-post-card
+            *ngFor="let post of this.highlightedPosts"
+            [cardType]="'short'"
+            [postImagePath]="post.imagePath"
+            [postTitle]="post.title"
+            [postCategory]="post.category"
+            [postAuthor]="post.author"
+            [postCreatedAt]="post.created_at"
+            />
+        </div>
+    </section>
+</div>
