@@ -1,9 +1,68 @@
-<div class="card-tall" *ngIf="this.cardType == 'tall'; else short">
+<div class="card-tall h-full" *ngIf="this.cardType == 'tall'; else short">
+    <div class="card-tall h-full xl:max-w-[17.813rem]">
+        <div class="post-descriptions flex flex-col justify-around items-stretch">
+            <div class="post-card-header relative mb-4">
+                <div class="post-image h-[12.5rem]" *ngIf="this.showPostImage">
+                    <div class="img relative w-full h-full rounded-[4px] bg-cover bg-center overflow-hidden"
+                    [style.backgroundImage]="this.postImagePath.thumbnailImageSize | turnUrlable"
+                    > 
+                        <img
+                        (load)="appearWhenLoaded($event)"
+                        [ngClass]="{
+                            'showLazyLoadImageWithTransition': this.imageMayAppear,
+                            'notShowLazyLoadImageWithTransition': !this.imageMayAppear
+                        }"
+                        [ngSrc]="this.postImagePath.mediumImageSize" fill
+                        class="w-full h-full object-cover object-center" alt="">
+                    </div>
+                </div>
+                <div class="post-category"
+                [ngClass]="{ 'absolute top-4 left-4 z-[2]': this.showPostImage }"
+                >
+                    <pontual-chip
+                    [bgColor]="'primary'"
+                    [bgOpacity]="(this.showPostImage) ? '' : 'bg-opacity-[0.05]'"
+                    [textColor]="(this.showPostImage) ? 'white' : 'primary'"
+                    [icon]="true"
+                    [iconColor]="(this.showPostImage) ? 'white' : '#D3352A'"
+                    [label]="this.postCategory"
+                    [gap]="'gap-2'"
+                    />
+                </div>
+            </div>
+            <div class="post-card-body">
+                <div class="post-title">
+                    <h1 class="card-tall-main-title text-secondary text-2xl font-medium leading-8">
+                        <a routerLink="/home" [innerHTML]="this.postTitle">
+                            <!-- {{ this.postTitle }} -->
+                        </a>
+                    </h1>
+                </div>
+                <div class="card-tall-post-excerpt my-4">
+                    <p class="text-[#808080] text-base font-normal leading-6 font-['Inter']" [innerHTML]="this.postHighlightDescription">
+                        <!-- {{ this.postHighlightDescription }} -->
+                    </p>
+                </div>
     
+                <div class="post-details flex justify-between items-center">
+                    <div class="author">
+                        <p class=" text-sm text-secondary font-medium tracking-[0.42px]">
+                            {{ this.postAuthor }}
+                        </p>
+                    </div>
+                    <div class="created-at">
+                        <p class=" text-sm text-[#677489] font-light tracking-[0.42px]">
+                            {{ this.postCreatedAt }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <ng-template #short>
-    <div class="card-short my-8 py-4 border-y border-[#EEEEEE99] border-opacity-[60%] flex gap-3 justify-between items-stretch">
+    <div class="card-short xl:my-1 xl-1440:my-7 py-4 border-y border-[#EEEEEE99] border-opacity-[60%] flex gap-3 justify-between items-stretch">
         <div class="post-descriptions w-[17.438rem]">
             <div class="post-category">
                 <pontual-chip
@@ -18,19 +77,19 @@
             </div>
             <div class="post-title my-4">
                 <h1 class="card-short-main-title text-secondary text-base font-bold leading-6">
-                    <a routerLink="/home">
-                        {{ this.postTitle }}
+                    <a routerLink="/home" [innerHTML]="this.postTitle">
+                        <!-- {{ this.postTitle }} -->
                     </a>
                 </h1>
             </div>
             <div class="post-details flex justify-between items-center">
                 <div class="author">
-                    <p class=" text-sm tracking-[0.42px]">
+                    <p class=" text-sm text-secondary font-medium tracking-[0.42px]">
                         {{ this.postAuthor }}
                     </p>
                 </div>
                 <div class="created-at">
-                    <p class=" text-sm tracking-[0.42px]">
+                    <p class=" text-sm text-[#677489] font-light tracking-[0.42px]">
                         {{ this.postCreatedAt }}
                     </p>
                 </div>
@@ -41,9 +100,18 @@
         class="post-image w-[7.688rem] rounded-[4px] overflow-hidden"
         >
             <a routerLink="/home">
-                <img
-                class="w-full h-full object-cover object-center"
-                src="{{ this.postImagePath }}" alt="">
+                <div class="img relative bg-cover bg-center w-full h-full"
+                [style.backgroundImage]="this.postImagePath.thumbnailImageSize | turnUrlable"
+                >
+                    <img
+                    (load)="appearWhenLoaded($event)"
+                    [ngClass]="{
+                        'showLazyLoadImageWithTransition': this.imageMayAppear,
+                        'notShowLazyLoadImageWithTransition': !this.imageMayAppear
+                    }"
+                    class="w-full h-full object-cover object-center"
+                    [ngSrc]="this.postImagePath.mediumImageSize" fill alt="">
+                </div>
             </a>
         </div>
     </div>

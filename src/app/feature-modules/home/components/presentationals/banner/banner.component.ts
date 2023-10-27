@@ -7,6 +7,8 @@ import { PostsModel } from '@core/base-models/posts.model';
   styleUrls: ['./banner.component.css']
 })
 export class BannerComponent implements OnInit, OnChanges {
+
+  @Input() bannerPosts: PostsModel[] = [];
   @Input() highlightedPosts: PostsModel[] = [];
   
   ngOnInit(): void {

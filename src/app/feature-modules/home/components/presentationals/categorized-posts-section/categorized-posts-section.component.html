@@ -1,0 +1,55 @@
+<div class="body-container" *ngIf="this.pageStructure.sections">
+    <div *ngFor="let section of this.pageStructure.sections">
+        <div class="post-section my-24" *ngIf="section.type == 'post'">
+            <div class="main-title mb-16">
+                <h1>
+                    <pontual-chip
+                    [chipPadding]="'p-0'"
+                    [icon]="true"
+                    [iconColor]="'#D3352A'"
+                    [iconWidth]="24"
+                    [iconHeight]="24"
+                    [bgColor]="'white'"
+                    [label]="section.sectionTitle"
+                    [textColor]="'secondary'"
+                    [labelWeight]="'font-bold'"
+                    [labelSize]="'text-2xl'"
+                    [gap]="'gap-3'"
+                    />
+                </h1>
+            </div>
+            <div class="posts-section overflow-x-auto">
+                <div class="posts-container w-max flex gap-x-16 justify-start items-stretch">
+        
+                    <pontual-post-card
+                    *ngFor="let post of section.data"
+                    [showPostImage]="true"
+                    [postImagePath]="post.imagePath"
+                    [postTitle]="post.title"
+                    [postCategory]="post.categories[0].name"
+                    [postHighlightDescription]="post.highlightDescription"
+                    [postAuthor]="post.author"
+                    [postCreatedAt]="post.created_at"
+                    />
+        
+                </div>
+            </div>
+        </div>
+        
+        <div class="ads-section my-24" *ngIf="section.type == 'advertisement'">
+            <div class="advertisement">
+                <pontual-ads [ad]="section.data" />
+                <!-- <h1 class="text-center font-light text-sm text-[#677489] text-opacity-60 uppercase mb-2">-Publicidade-</h1>
+                <a >
+                    <div class="image-section relative w-full h-full bg-center bg-cover"
+                    >
+                        <img
+                        src="assets/images/ads/unitel.png"
+                        class="w-full h-full object-cover object-center" alt="">
+                    </div>
+                </a> -->
+            </div>
+        </div>
+    </div>
+    
+</div>

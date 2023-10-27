@@ -1,21 +1,29 @@
-<div class="carousel-container overflow-x-auto w-full h-full rounded-[0.25rem]">
-    <div class="flex relative w-fit">
+<div class="carousel-container overflow-x-hidden w-full h-full rounded-[0.25rem]" #carouselContainer>
+    <div class="flex items-stretch relative w-fit">
         <div
-        *ngFor="let news of [0, 1, 2]"
-        class="news relative xl:w-[var(--max-w-1280)] xl-1440:w-[var(--max-w-1440)] h-full"
+        *ngFor="let new of this.bannerPosts"
+        class="news relative xl:w-[var(--max-w-1280)] xl-1440:w-[var(--max-w-1440)]"
+        id="bannerNews"
         >
-            <div class="background-image w-full h-full">
-                <img src="assets/images/home/banner/bigImage.png"
-                class="w-full h-full object-cover object-center" alt="">
+            <div class="background-image relative w-full h-full bg-cover bg-center"
+            [style.backgroundImage]="new.imagePath.thumbnailImageSize | turnUrlable"
+            >
+                <img [ngSrc]="new.imagePath.fullImageSize" width="844" height="610"
+                (load)="appearWhenLoaded($event)"
+                [ngClass]="{
+                    'showLazyLoadImageWithTransition': this.imageMayAppear,
+                    'notShowLazyLoadImageWithTransition': !this.imageMayAppear
+                }"
+                class="w-full h-full opacity-0 object-cover object-center" alt="">
             </div>
             <div class="news-details z-[2] px-20 py-10 flex flex-col gap-y-6 justify-end items-start absolute top-0 left-0 w-full h-full">
                 <div class="main-title text-white">
-                    <h1 class="mb-5 text-[2.375rem] font-bold leading-[2.625rem] ">
-                        Aldarberto da Costa Júnior pretende interromper suas campanhas política de 2027
-                    </h1>
+                    <h1 class="mb-5 text-[2.375rem] font-bold leading-[2.625rem] " [innerHTML]="new.title">
+                        <!-- {{ new.title }} -->
+                    </h1>   
                     <div class="excerpt xl:w-[65%]">
-                        <p class=" text-base font-medium leading-6">
-                            Para nós existe uma linha visível na nossa relação com os clientes, fornecedores, colaboradores e texto de teste para as reticências
+                        <p class=" text-base font-medium leading-6" [innerHTML]="new.highlightDescription">
+                            <!-- {{ new.highlightDescription }} -->
                         </p>
                     </div>
                 </div>
@@ -24,7 +32,7 @@
                         <pontual-chip
                         [bgColor]="'primary'"
                         [textColor]="'white'"
-                        [label]="'Política'"
+                        [label]="new.categories[0].name"
                         [icon]="true"
                         [iconColor]="'white'"
                         />
@@ -34,7 +42,7 @@
                         [bgColor]="'white'"
                         [icon]="false"
                         [textColor]="'secondary'"
-                        [label]="'48 minutos atrás'"
+                        [label]="new.created_at"
                         [iconColor]="'white'"
                         />
                     </div>

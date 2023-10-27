@@ -1,0 +1,50 @@
+<div class="flex justify-between items-stretch">
+    <div class="main-title w-[21.875rem]">
+        <h1 class="text-secondary text-3xl font-bold leading-10">
+            Fique por dentro das principais notícias da semana aqui.
+        </h1>
+    </div>
+    <div class="recent-posts-section">
+        <div class="posts-container xl:max-w-[53.625rem] overflow-x-auto">
+            <div class="posts w-max flex gap-x-8 justify-start items-stretch">
+                <pontual-post-card
+                *ngFor="let post of this.recentPosts"
+                [cardType]="'tall'"
+                [showPostImage]="false"
+                [postTitle]="post.title"
+                [postImagePath]="post.imagePath"
+                [postCategory]="post.categories[0].name"
+                [postHighlightDescription]="post.highlightDescription"
+                [postAuthor]="post.author"
+                [postCreatedAt]="post.created_at"
+                />
+            </div>
+        </div>
+        <div class="indicators flex justify-end mt-16">
+            <div class="flex gap-x-6 items-center justify-center">
+                <div class="prev">
+                    <a href="javascript:void(0)" class="cursor-auto">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- #D3352A - Enabled -->
+                            <path d="M20 12H4M4 12L10 6M4 12L10 18" [attr.stroke]="'#CDD5E0'" stroke-width="1.64" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>                            
+                    </a>
+                </div>
+                <div class="indicators-pointers flex gap-x-2 items-center justify-center">
+                    <div class="active w-2 h-2 rounded-full"></div>
+                    <div class="w-2 h-2 rounded-full"></div>
+                    <div class="w-2 h-2 rounded-full"></div>
+                    <div class="w-2 h-2 rounded-full"></div>
+                </div>
+                <div class="next">
+                    <a href="javascript:void(0)" class="cursor-pointer">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- #D3352A - Enabled -->
+                            <path d="M4 12H20M20 12L14 6M20 12L14 18" [attr.stroke]="'#D3352A'" stroke-width="1.64" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

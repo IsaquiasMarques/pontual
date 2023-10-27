@@ -1,28 +1,34 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { LogotypeComponent } from './components/logotype/logotype.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { ChipComponent } from './components/static/chip/chip.component';
 import { PostCardComponent } from './components/post/card/card.component';
 import { RouterModule } from '@angular/router';
+import { AdsComponent } from './components/advertisement/ads/ads.component';
+import { TurnUrlablePipe } from './pipes/image-lazy-loading/turn-urlable.pipe';
 
 @NgModule({
   declarations: [
     LogotypeComponent,
     CarouselComponent,
     ChipComponent,
-    PostCardComponent
+    PostCardComponent,
+    AdsComponent,
+    TurnUrlablePipe
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    NgOptimizedImage
   ],
   exports: [
     CommonModule,
     LogotypeComponent,
     CarouselComponent,
     ChipComponent,
-    PostCardComponent
+    PostCardComponent,
+    AdsComponent
   ]
 })
 export class SharedModule { }

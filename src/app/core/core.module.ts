@@ -7,6 +7,7 @@ import { SharedModule } from '@shared/shared.module';
 import { CoreFacade } from './facades/core.facade';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { ApiService } from './api/api.service';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { RouterModule } from '@angular/router';
     NavigationComponent
   ],
   providers: [
-    CoreFacade
+    CoreFacade,
+    ApiService
   ]
 })
 export class CoreModule { }

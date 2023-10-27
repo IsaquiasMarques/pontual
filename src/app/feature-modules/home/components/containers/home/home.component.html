@@ -1,3 +1,21 @@
 <div class="banner-container">
-    <pontual-banner [highlightedPosts]="this.highlightedPosts"></pontual-banner>
+    <pontual-banner
+    [bannerPosts]="this.bannerPosts"
+    [highlightedPosts]="this.highlightedPosts"
+    />
 </div>
+<div class="advertisement my-20" *ngIf="this.ads && this.ads[0]">
+    <pontual-ads [ad]="this.ads[0]" />
+</div>
+
+<div class="most-recent-news mt-40">
+    <pontual-recent-posts [recentPosts]="this.recentPosts" />
+</div>
+
+<div class="categorized-posts-section mt-40">
+    <pontual-categorized-posts-section [pageStructure]="this.postsDisplaySectionStructure" />
+</div>
+
+<!-- <div class="advertisement my-20" *ngIf="this.ads && this.ads[1]">
+    <pontual-ads [ad]="this.ads[1]" />
+</div> -->

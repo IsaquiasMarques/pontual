@@ -1,3 +1,5 @@
+import { PostsModel } from "./posts.model"
+
 export interface CategoriesModel{
     id: number,
     label: string,
@@ -6,4 +8,10 @@ export interface CategoriesModel{
     priority?: number,
     routeTo?: string,
     childrens?: CategoriesModel[]
+}
+
+export interface CategoriesWithPostsModel{
+    categoryId: number,
+    label: string,
+    entries: PostsModel[]
 }

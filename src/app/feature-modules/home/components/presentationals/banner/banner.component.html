@@ -1,9 +1,9 @@
-<div class="banner-content flex justify-between items-stretch gap-x-16">
-    <section class="carousel w-full h-full xl:max-w-[var(--max-w-1280)] xl-1440:max-w-[var(--max-w-1440)]">
-        <pontual-carousel />
+<div class="banner-content flex justify-between items-stretch xl:gap-x-10 2xl:gap-x-16">
+    <section class="carousel w-full h-full xl:max-w-[var(--max-w-1280)] 2xl:max-w-[var(--max-w-1440)]">
+        <pontual-carousel [bannerPosts]="this.bannerPosts" />
     </section>
     <section class="vertical-list w-[60%]">
-        <div class="main-title mb-6">
+        <div class="main-title xl:mb-0 xl-1440:mb-6">
             <h1 class=" text-xl font-medium leading-8 tracking-[0.6px] text-[#121212]">
                 Melhores notícias em destaques
             </h1>
@@ -14,7 +14,7 @@
             [cardType]="'short'"
             [postImagePath]="post.imagePath"
             [postTitle]="post.title"
-            [postCategory]="post.category"
+            [postCategory]="post.categories[0].name"
             [postAuthor]="post.author"
             [postCreatedAt]="post.created_at"
             />

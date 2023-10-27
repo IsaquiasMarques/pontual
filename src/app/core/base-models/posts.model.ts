@@ -1,8 +1,18 @@
+import { ImageObjectInterface } from "@shared/components/model/image-object"
+
+interface PostCategoriesInterface{
+    id: number,
+    name: string,
+    slug: string
+}
 export interface PostsModel{
-    imagePath?: string,
+    id?: number
+    imagePath: ImageObjectInterface,
+    slug: string
     title: string,
-    category: string,
-    author: string,
+    categories: PostCategoriesInterface[],
+    author?: string,
     created_at: string,
     highlightDescription?: string
+    fullDescription?: string
 }
