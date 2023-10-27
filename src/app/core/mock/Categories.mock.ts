@@ -5,27 +5,6 @@ export const CATEGORY_CONTAINER_SLUG: string = 'mais-pontual';
 
 export const CATEGORIES: CategoriesModel[] = [
     {
-        id: 199,
-        label: CATEGORY_CONTAINER_LABEL,
-        slug: CATEGORY_CONTAINER_SLUG,
-        hasPosts: true,
-        priority: 0,
-        childrens: [
-            {
-                id: 206,
-                label: 'Desporto',
-                slug: 'desporto',
-                hasPosts: true
-            },
-            {
-                id: 207,
-                label: 'Lifestyle',
-                slug: 'lifestyle',
-                hasPosts: false,
-            },
-        ]
-    },
-    {
         id: 200,
         label: 'Política',
         slug: 'politica',
@@ -66,5 +45,26 @@ export const CATEGORIES: CategoriesModel[] = [
         label: 'Mundo',
         slug: 'mundo',
         hasPosts: true,
+    },
+    {
+        id: 4200,
+        label: CATEGORY_CONTAINER_LABEL,
+        slug: CATEGORY_CONTAINER_SLUG,
+        hasPosts: true,
+        priority: 0,
+        childrens: [
+            {
+                id: 206,
+                label: 'Desporto',
+                slug: 'desporto',
+                hasPosts: true
+            },
+            {
+                id: 207,
+                label: 'Lifestyle',
+                slug: 'lifestyle',
+                hasPosts: false,
+            },
+        ]
     },
 ];

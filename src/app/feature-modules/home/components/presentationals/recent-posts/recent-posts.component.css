@@ -1,0 +1,7 @@
+.indicators-pointers div{
+    background-color: #CDD5E0;
+    cursor: pointer;
+}
+.indicators-pointers div.active{
+    background-color: #D3352A !important;
+}

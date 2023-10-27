@@ -7,5 +7,6 @@ export const environment = {
         storageBucket: "pontual-news.appspot.com",
         messagingSenderId: "912140866822",
         appId: "1:912140866822:web:8ee1298fc9e335707b7a87"
-    }
+    },
+    backoffice: 'https://pontual-bo.fridoom.com/wp-json/wp/v2'
 };

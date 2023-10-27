@@ -11,7 +11,7 @@
                 <ul class="flex gap-10 justify-between items-center">
                     <li
                     class="flex justify-center items-center gap-x-3"
-                    *ngFor="let category of this.headerCategories"
+                    *ngFor="let category of this.getHeaderCategories() | async"
                     >
                         <a routerLink="">
                             {{ category.label }}

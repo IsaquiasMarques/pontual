@@ -1,4 +1,4 @@
-export interface CategoriesModel{
+interface CategoriesModel{
     id: number,
     label: string,
     slug: string,
