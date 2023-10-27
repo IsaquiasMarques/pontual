@@ -5,7 +5,7 @@
                 <div class="post-image h-[12.5rem]" *ngIf="this.showPostImage">
                     <div class="img relative w-full h-full rounded-[4px] bg-cover bg-center overflow-hidden"
                     [style.backgroundImage]="this.postImagePath.thumbnailImageSize | turnUrlable"
-                    >
+                    > 
                         <img
                         (load)="appearWhenLoaded($event)"
                         [ngClass]="{
