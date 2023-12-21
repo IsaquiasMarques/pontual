@@ -7,6 +7,7 @@ import { CoreModule } from '@core/core.module';
 
 import localeAO from '@angular/common/locales/pt-AO';
 import { registerLocaleData } from '@angular/common';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { registerLocaleData } from '@angular/common';
     BrowserModule,
     AppRoutingModule,
     CoreModule,
+    SharedModule,
     // registerLocaleData(localeAO, 'pt'),
   ],
   providers: [

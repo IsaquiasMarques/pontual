@@ -1,0 +1,6 @@
+.mobile-menu-panel,
+.mobile-menu-panel .menu-content ul li .dropdown,
+.desktop-menu-panel
+{
+    transition: .6s;
+}

@@ -1,0 +1,17 @@
+.card-tall:not(.first-item)::before{
+    content: '';
+    display: none;
+    position: absolute;
+    left: -8.5%;
+    top: 50%;
+    background-color: #E1E1E199;
+    width: 1px;
+    height: 82%;
+    transform: translateY(-50%);
+}
+
+@media screen and (min-width: 1280px) {
+    .card-tall:not(.first-item)::before{
+        display: block;
+    }
+}

@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, HostListener, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, HostListener, AfterViewInit, ViewChild, ElementRef, Inject, PLATFORM_ID } from '@angular/core';
 import { PostsModel } from '@core/base-models/posts.model';
 
 @Component({
@@ -8,6 +9,10 @@ import { PostsModel } from '@core/base-models/posts.model';
 })
 
 export class CarouselComponent implements OnInit, OnChanges, AfterViewInit {
+
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: any
+  ) {}
   
   @ViewChild('carouselContainer') carouselContainer!: ElementRef<HTMLElement>;
 
@@ -40,10 +45,12 @@ export class CarouselComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   getTheBannerComponents(){
-    let bannerNews = document.querySelectorAll('#bannerNews') as NodeListOf<HTMLElement>;
-    bannerNews.forEach((element: HTMLElement) => {
-      console.log(element);
-    });
+    if(isPlatformBrowser(this.platformId)){
+      let bannerNews = document.querySelectorAll('#bannerNews') as NodeListOf<HTMLElement>;
+      bannerNews.forEach((element: HTMLElement) => {
+        console.log(element);
+      });
+    }
   }
 
   @HostListener('wheel', ['$event']) onWheel($event: any){

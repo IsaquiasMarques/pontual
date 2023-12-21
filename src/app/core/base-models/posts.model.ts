@@ -12,6 +12,7 @@ export interface PostsModel{
     title: string,
     categories: PostCategoriesInterface[],
     author?: string,
+    read_time?: string,
     created_at: string,
     highlightDescription?: string
     fullDescription?: string

@@ -1,0 +1,18 @@
+/* .posts-container pontual-post-card:nth-child(4n+1)::before{
+} */
+
+@media screen and (min-width: 1440px) {
+    .posts-container pontual-post-card:nth-child(4n+1){
+        overflow: hidden;
+        position: relative;
+        /* background-color: red; */
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .posts-container pontual-post-card:nth-child(3n+1){
+        overflow: hidden;
+        position: relative;
+        /* background-color: red; */
+    }
+}

@@ -70,44 +70,12 @@ export class HomeFacade{
     }
 
     getCategoriesWithPosts(): Observable<CategoriesWithPostsModel[]>{
-        // this.api.categories().pipe(
-        //     map((categories: CategoriesModel[]) => {
-        //         let categoriesThatHavePosts: CategoriesModel[] = [];
-        //         categories.forEach((category: CategoriesModel) => {
-        //             if(category.hasPosts){
-        //                 categoriesThatHavePosts.push(category);
-        //             }
-        //         });
-        //         return categoriesThatHavePosts;
-        //     }),
-        //     // tap(console.log),
-        //     map((onlyCategoriesWithPosts: CategoriesModel[]) => {
-        //         let objectStruture: CategoriesWithPostsModel[] = [];
-                
-        //         onlyCategoriesWithPosts.forEach((category: CategoriesModel) => {
-        //             this.api.getPostsFromCategory(category.id).subscribe({
-        //                 next: (postsFromCategory: PostsModel[]) => {
-        //                     objectStruture.push({
-        //                         categoryId: category.id,
-        //                         label: category.label,
-        //                         entries: postsFromCategory
-        //                     });
-        //                 }
-        //             });
-        //         })
-        //         return objectStruture;
-        //     }),
-        //     // tap(console.log)
-        // ).subscribe({
-        //     next: (objectStructure: CategoriesWithPostsModel[]) => {
-        //         this.categoriesWithPosts$.next(objectStructure);
-        //     }
-        // });
-        this.api.categoriesWithPosts().subscribe({
-            next: (categoriesWithPosts: CategoriesWithPostsModel[]) => {
-                this.categoriesWithPosts$.next(categoriesWithPosts);
-            }
-        });
+        if(this.categoriesWithPosts$.getValue().length == 0)
+            this.api.categoriesWithPosts().subscribe({
+                next: (categoriesWithPosts: CategoriesWithPostsModel[]) => {
+                    this.categoriesWithPosts$.next(categoriesWithPosts);
+                }
+            });
 
         return this.categoriesWithPosts$;
     }

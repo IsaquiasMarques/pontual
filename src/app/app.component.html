@@ -1,4 +1,4 @@
-<div class="app-container h-auto overflow-y-auto">
+<div class="app-container h-auto">
 
     <div class="container-header z-[20] fixed top-0 w-full" #navigationContainer>
         <pontual-navigation />
@@ -10,6 +10,201 @@
             <router-outlet></router-outlet>
         </div>
     </div>
-    <div class="container-footer"></div>
+    <div class="newsletter-section py-12 overflow-hidden rounded-[4px] limited-container bg-[url(assets/svg/static/mobile-newsletter-bg.svg)] sm:bg-[url(assets/svg/static/newsletter-bg.svg)] bg-no-repeat bg-cover">
+        <div class="w-full flex flex-col justify-center items-center">
+            <div class="main-title">
+                <h1 class="text-center text-2xl xl:text-[2rem] font-bold text-white">
+                    Seja o primeiro a receber as nossas notícias
+                </h1>
+            </div>
+            <div class="description xl:w-[30%] mx-auto mt-5 mb-10">
+                <p class="text-white text-center leading-[24px] text-base">
+                    Se inscreva e seja parte da nossa comunidade informada e conectada.
+                </p>
+            </div>
+            <div class="form xl:w-[40%]">
+                <form
+                [formGroup]="this.subscribeFormGroup"
+                method="post"
+                (submit)="this.subscribe()"
+                >
+                    <div class="input w-full mb-8">
+                        <input
+                        type="email"
+                        [ngClass]="{'invalid-input': this.subscribeFormGroup.get('email').invalid && this.subscribeFormGroup.get('email').touched && this.subscribeFormGroup.invalid || this.emailIsInvalid}"        
+                        formControlName="email"
+                        class="w-full py-3 px-6 border border-white rounded-full text-white focus:outline-none bg-transparent placeholder:text-white placeholder:text-opacity-80"
+                        placeholder="Deixe o seu email aqui"
+                        >
+                        <div class="error w-full text-center mt-3"
+                        *ngIf="this.subscribeFormGroup.get('email').invalid && this.subscribeFormGroup.get('email').touched && this.subscribeFormGroup.invalid || this.emailIsInvalid"
+                        >
+                            <span
+                            class="text-white w-full text-sm text-center"
+                            >
+                                Email inválido
+                            </span>
+                        </div>
+                    </div>
+                    <div class="button w-full text-center">
+                        <button type="submit" class="bg-white text-base  font-medium text-primary py-3 px-8 border rounded-full focus:outline-none">
+                            Se inscrever
+                            <!-- <img src="assets/svg/static/loader.svg" width="25" alt=""> -->
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="override mt-24 xl:mt-52"></div>
+    <div class="container-footer-top pt-12 limited-container border-t flex gap-y-10 xl:gap-y-0 flex-col xl:flex-row xl:justify-between items-stretch">
+        <div class="about-col">
+            <div class="logo">
+                <a routerLink="/">
+                    <logotype />
+                </a>
+            </div>
+            <div class="description mt-4">
+                <p class="footer-about-description text-[#808080] font-['Inter'] leading-6 max-w-[24.625rem]">
+                    Pontual é um jornal online, actualizável a qualquer hora, acessível na Internet através do endereço www.pontual.com, que disponibiliza informação geral independente e pluralista, sem qualquer
+                </p>
+            </div>
+            <div class="know-more-button mt-8 md:max-w-[18.125rem]">
+                <a routerLink="/about/editoral-status" class="bg-primary flex justify-center items-center gap-x-3 text-white font-medium px-3 py-4 rounded-full">
+                    Saber mais sobre a pontual
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="news-categories flex xl:block justify-around lg:justify-start items-stretch">
+            <div class="block w-[50%] xl:w-full">
+                <div class="title">
+                    <h4 class="text-primary text-base font-bold">
+                        Notícias pontual
+                    </h4>
+                </div>
+                <div class="categories-list mt-2">
+                    <ul>
+                        <li class="" *ngFor="let category of (this.getHeaderCategories() | async)">
+                            <a
+                            routerLink="/posts/{{ category.slug }}" class="text-base text-[#808080] py-2 block" *ngIf="category.label != this.containerLabel">
+                                {{ category.label }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="block-col xl:hidden w-[50%] max-w-[140px]">
+                <div class="title">
+                    <h4 class="text-primary text-base font-bold">
+                        + Pontual
+                    </h4>
+                </div>
+                <div class="categories-list mt-2">
+                    <ul>
+                        <li class="" *ngFor="let category of (this.getHeaderCategories() | async)">
+                            <div *ngIf="category.label == this.containerLabel">
+                                <a
+                                *ngFor="let subcategory of category.childrens"
+                                routerLink="/posts/{{ subcategory.slug }}" class="text-base text-[#808080] py-2 block">
+                                    {{ subcategory.label }}
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="plus-pontual hidden xl:block">
+            <div class="title">
+                <h4 class="text-primary text-base font-bold">
+                    + Pontual
+                </h4>
+            </div>
+            <div class="categories-list mt-2">
+                <ul>
+                    <li class="" *ngFor="let category of (this.getHeaderCategories() | async)">
+                        <div *ngIf="category.label == this.containerLabel">
+                            <a
+                            *ngFor="let subcategory of category.childrens"
+                            routerLink="/posts/{{ subcategory.slug }}" class="text-base text-[#808080] py-2 block">
+                                {{ subcategory.label }}
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="social-media relative flex gap-y-5 flex-col justify-stretch items-stretch">
+            <div class="title">
+                <h4 class="text-primary text-base font-bold">
+                    Siga-nos
+                </h4>
+            </div>
+            <div class="sections h-full flex flex-col justify-between">
+                <div class="icons-list mt-5 flex gap-x-6 xl:gap-x-4 justify-start xl:justify-between items-center">
+                    <a href="" class="rounded-full p-2 bg-[#03061608]">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_527_2984)">
+                            <path d="M8 1.44184C10.1374 1.44184 10.3883 1.45137 11.233 1.48948C12.0143 1.52441 12.4367 1.65462 12.7193 1.76578C13.0941 1.91187 13.3609 2.08337 13.6403 2.36284C13.9198 2.64232 14.0945 2.90909 14.2374 3.28384C14.3454 3.56649 14.4788 3.98888 14.5137 4.77015C14.5518 5.61493 14.5613 5.86582 14.5613 8.00318C14.5613 10.1405 14.5518 10.3914 14.5137 11.2362C14.4788 12.0175 14.3486 12.4399 14.2374 12.7225C14.0913 13.0973 13.9198 13.364 13.6403 13.6435C13.3609 13.923 13.0941 14.0977 12.7193 14.2406C12.4367 14.3486 12.0143 14.4819 11.233 14.5169C10.3883 14.555 10.1374 14.5645 8 14.5645C5.86265 14.5645 5.61175 14.555 4.76697 14.5169C3.98571 14.4819 3.56332 14.3517 3.28067 14.2406C2.90592 14.0945 2.63914 13.923 2.35967 13.6435C2.08019 13.364 1.90552 13.0973 1.76261 12.7225C1.65463 12.4399 1.52124 12.0175 1.4863 11.2362C1.44819 10.3914 1.43867 10.1405 1.43867 8.00318C1.43867 5.86582 1.44819 5.61493 1.4863 4.77015C1.52124 3.98888 1.65145 3.56649 1.76261 3.28384C1.9087 2.90909 2.08019 2.64232 2.35967 2.36284C2.63914 2.08337 2.90592 1.90869 3.28067 1.76578C3.56332 1.6578 3.98571 1.52441 4.76697 1.48948C5.61175 1.44819 5.86582 1.44184 8 1.44184ZM8 0C5.82771 0 5.55459 0.00952759 4.70028 0.047638C3.84915 0.0857483 3.26797 0.22231 2.75983 0.419214C2.23263 0.622469 1.78801 0.898769 1.34339 1.34339C0.89877 1.78801 0.625646 2.23581 0.419214 2.75983C0.222311 3.26796 0.0857484 3.84915 0.047638 4.70345C0.00952759 5.55459 0 5.82771 0 8C0 10.1723 0.00952759 10.4454 0.047638 11.2997C0.0857484 12.1509 0.222311 12.732 0.419214 13.2434C0.62247 13.7705 0.89877 14.2152 1.34339 14.6598C1.78801 15.1044 2.23581 15.3775 2.75983 15.584C3.26797 15.7809 3.84915 15.9174 4.70346 15.9555C5.55777 15.9936 5.82771 16.0032 8.00318 16.0032C10.1786 16.0032 10.4486 15.9936 11.3029 15.9555C12.154 15.9174 12.7352 15.7809 13.2465 15.584C13.7737 15.3807 14.2184 15.1044 14.663 14.6598C15.1076 14.2152 15.3807 13.7674 15.5871 13.2434C15.7841 12.7352 15.9206 12.154 15.9587 11.2997C15.9968 10.4454 16.0064 10.1755 16.0064 8C16.0064 5.82453 15.9968 5.55459 15.9587 4.70028C15.9206 3.84915 15.7841 3.26796 15.5871 2.75665C15.3839 2.22946 15.1076 1.78484 14.663 1.34021C14.2184 0.895594 13.7706 0.622469 13.2465 0.416038C12.7384 0.219135 12.1572 0.0825725 11.3029 0.0444621C10.4454 0.00952759 10.1723 0 8 0Z" fill="#D3352A"/>
+                            <path d="M7.99995 3.89355C5.73238 3.89355 3.89038 5.73238 3.89038 8.00312C3.89038 10.2739 5.72921 12.1127 7.99995 12.1127C10.2707 12.1127 12.1095 10.2739 12.1095 8.00312C12.1095 5.73238 10.2707 3.89355 7.99995 3.89355ZM7.99995 10.6677C6.52635 10.6677 5.33222 9.47354 5.33222 7.99994C5.33222 6.52634 6.52635 5.33222 7.99995 5.33222C9.47355 5.33222 10.6677 6.52634 10.6677 7.99994C10.6677 9.47354 9.47355 10.6677 7.99995 10.6677Z" fill="#D3352A"/>
+                            <path d="M12.2716 4.68775C12.8013 4.68775 13.2307 4.25834 13.2307 3.72864C13.2307 3.19894 12.8013 2.76953 12.2716 2.76953C11.7419 2.76953 11.3125 3.19894 11.3125 3.72864C11.3125 4.25834 11.7419 4.68775 12.2716 4.68775Z" fill="#D3352A"/>
+                            </g>
+                            <defs>
+                            <clipPath id="clip0_527_2984">
+                            <rect width="16" height="16" fill="white"/>
+                            </clipPath>
+                            </defs>
+                        </svg>                        
+                    </a>
+                    <a href="" class="rounded-full p-2 bg-[#03061608]">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.8406 4.8002C15.8406 4.8002 15.6844 3.69707 15.2031 3.2127C14.5938 2.5752 13.9125 2.57207 13.6 2.53457C11.3625 2.37207 8.00313 2.37207 8.00313 2.37207H7.99687C7.99687 2.37207 4.6375 2.37207 2.4 2.53457C2.0875 2.57207 1.40625 2.5752 0.796875 3.2127C0.315625 3.69707 0.1625 4.8002 0.1625 4.8002C0.1625 4.8002 0 6.09707 0 7.39082V8.60332C0 9.89707 0.159375 11.1939 0.159375 11.1939C0.159375 11.1939 0.315625 12.2971 0.79375 12.7814C1.40313 13.4189 2.20313 13.3971 2.55938 13.4658C3.84063 13.5877 8 13.6252 8 13.6252C8 13.6252 11.3625 13.6189 13.6 13.4596C13.9125 13.4221 14.5938 13.4189 15.2031 12.7814C15.6844 12.2971 15.8406 11.1939 15.8406 11.1939C15.8406 11.1939 16 9.90019 16 8.60332V7.39082C16 6.09707 15.8406 4.8002 15.8406 4.8002ZM6.34688 10.0752V5.57832L10.6687 7.83457L6.34688 10.0752Z" fill="#D3352A"/>
+                        </svg>                
+                    </a>
+                    <a href="" class="rounded-full p-2 bg-[#03061608]">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.4758 8.88485L11.8904 6.15475H9.2968V4.38388C9.2968 3.63679 9.65845 2.90815 10.8201 2.90815H12V0.58388C12 0.58388 10.9297 0.399414 9.90685 0.399414C7.76986 0.399414 6.37443 1.70728 6.37443 4.07398V6.15475H4V8.88485H6.37443V15.485C6.85114 15.5607 7.33881 15.5994 7.83562 15.5994C8.33242 15.5994 8.82009 15.5607 9.2968 15.485V8.88485H11.4758Z" fill="#D3352A"/>
+                        </svg>                          
+                    </a>
+                    <a href="" class="rounded-full p-2 bg-[#03061608]">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.2176 1.26953H14.4666L9.55323 6.88519L15.3334 14.5268H10.8076L7.26277 9.89222L3.20671 14.5268H0.956369L6.2117 8.52026L0.666748 1.26953H5.30749L8.51168 5.50575L12.2176 1.26953ZM11.4283 13.1807H12.6745L4.63034 2.54495H3.29306L11.4283 13.1807Z" fill="#D3352A"/>
+                        </svg>                                                  
+                    </a>
+                </div>
 
+                <div class="goup-section flex cursor-pointer justify-end items-center"
+                (click)="gototop()"
+                >
+                    <div class="content flex flex-col justify-center items-center">
+                        <a href="javascript:void(0)" class="rounded-full p-2 bg-[#03061608]">
+                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.5 13.3337V2.66699M8.5 2.66699L4.5 6.66699M8.5 2.66699L12.5 6.66699" stroke="#D3352A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                        <span class=" text-[#808080]">
+                            Voltar
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-footer-bottom mt-4 py-6 bg-[#FBFCFD] border-t border-[#F6F7F9]">
+        <div class="limited-container flex justify-between items-center">
+            <div class="terms w-[40%] sm:w-auto">
+                <p class="underline text-xs sm:text-base text-secondary">
+                    Termos de usos e Políticas de privacidade 
+                </p>
+            </div>
+            <div class="copyright w-[40%] sm:w-auto">
+                <p class=" text-xs sm:text-sm text-secondary">
+                    &copy; 2023 Pontual. Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
+    </div>
 </div>

@@ -6,7 +6,7 @@ import { PostsModel } from '@core/base-models/posts.model';
 import { ADS_WANTED_FIELDS, CATEGORIES_WANTED_FIELDS, POSTS_WANTED_FIELDS } from '@core/constants/fields';
 import { LIMIT_OF_CATEGORIES_ON_MENU, LIMIT_OF_POSTS_PER_CATEGORIES_ON_HOME_PAGE, LIMIT_OF_RECENT_POSTS } from '@core/constants/limitations';
 import { HOME_PAGE_INDEX_ID, READING_PAGE_INDEX_ID, RESULTS_PAGE_INDEX_ID, SEE_POSTS_PAGE_INDEX_ID } from '@core/constants/pages';
-import { CATEGORY_CONTAINER_LABEL, CATEGORY_CONTAINER_SLUG } from '@core/mock/Categories.mock';
+import { CATEGORY_CONTAINER_ID, CATEGORY_CONTAINER_LABEL, CATEGORY_CONTAINER_SLUG } from '@core/mock/Categories.mock';
 
 import { transformWPDataFormatIntoLocalDataFormat } from '@shared/helpers/functions/posts.funcs';
 
@@ -18,22 +18,39 @@ import { environment } from 'src/environments/environment';
 })
 export class ApiService {
 
-  private readonly categories$: BehaviorSubject<CategoriesModel[]> = new BehaviorSubject<CategoriesModel[]>([]);
+  private readonly allCategories$: BehaviorSubject<CategoriesModel[]> = new BehaviorSubject<CategoriesModel[]>([]);
+  private readonly limitedCategories$: BehaviorSubject<CategoriesModel[]> = new BehaviorSubject<CategoriesModel[]>([]);
   private readonly categoriesWithPosts$: BehaviorSubject<CategoriesWithPostsModel[]> = new BehaviorSubject<CategoriesWithPostsModel[]>([])
   private readonly ads$: BehaviorSubject<AdsModel[]> = new BehaviorSubject<AdsModel[]>([]);
 
   constructor(private http: HttpClient){
     this.http.get<CategoriesModel[]>(`${environment.backoffice}/categories?${CATEGORIES_WANTED_FIELDS}`)
              .pipe(
+                  // order categories by number of posts
+                  map((nonOrderedData: any[]) => {
+                    nonOrderedData.sort((x, y) => {
+                        if (x.count < y.count) {
+                          return 1;
+                        }
+                        if (x.count > y.count) {
+                          return -1;
+                        }
+                        return 0;
+                    })
+                    return nonOrderedData;
+                  }),
                   map((nonTransformedData: any) => {
-                    let categories: any[] = [];
+
+                    this.allCategories$.next(nonTransformedData);
+
+                    let categories: CategoriesModel[] = [];
                     nonTransformedData.forEach((element: any) => {
                       categories.push({
-                          id: element.id,
-                          label: element.name,
-                          slug: element.slug,
-                          hasPosts: (element.count > 0) ? true : false,
-                        })
+                        id: element.id,
+                        label: element.name,
+                        slug: element.slug,
+                        hasPosts: (element.count > 0) ? true : false,
+                      })
                     });
                     return categories;
                   }),
@@ -46,7 +63,7 @@ export class ApiService {
                         }
                     });
 
-                    this.fulfillCategoriesWithPosts(categoriesThatHavePosts, 1.5);
+                    this.fulfillCategoriesWithPosts(categoriesThatHavePosts, 3);
 
                     return transformedData;
                   }),
@@ -61,7 +78,7 @@ export class ApiService {
                       }
 
                       TransformeData.unshift({
-                        id: 4200,
+                        id: CATEGORY_CONTAINER_ID,
                         label: CATEGORY_CONTAINER_LABEL,
                         slug: CATEGORY_CONTAINER_SLUG,
                         hasPosts: true,
@@ -71,7 +88,7 @@ export class ApiService {
                     return TransformeData;
                   }),
               ).subscribe((categoriesReadyForUse: CategoriesModel[]) => {
-                this.categories$.next(categoriesReadyForUse);
+                this.limitedCategories$.next(categoriesReadyForUse);
               });
 
     this.http.get<AdsModel[]>(`${environment.backoffice}/anuncios?${ADS_WANTED_FIELDS}`)
@@ -138,9 +155,13 @@ export class ApiService {
     return this.ads$;
   }
 
-  categories(): Observable<CategoriesModel[]>{
-    return this.categories$;
-  } 
+  limitedCategories(): Observable<CategoriesModel[]>{
+    return this.limitedCategories$;
+  }
+
+  allCategories(): Observable<CategoriesModel[]>{
+    return this.allCategories$;
+  }
 
   categoriesWithPosts(): Observable<CategoriesWithPostsModel[]>{
     return this.categoriesWithPosts$;
@@ -150,11 +171,12 @@ export class ApiService {
     let categoriesWithPostsArray: CategoriesWithPostsModel[] = [];
 
     categories.forEach((category: CategoriesModel) => {
-      this.getPostsFromCategory(category.id).subscribe({
+      this.getPostsFromCategory(LIMIT_OF_POSTS_PER_CATEGORIES_ON_HOME_PAGE, category.id).subscribe({
           next: (postsFromCategory: PostsModel[]) => {
             categoriesWithPostsArray.push({
                 categoryId: category.id,
                 label: category.label,
+                slug: category.slug,
                 entries: postsFromCategory
             });
           }
@@ -194,8 +216,12 @@ export class ApiService {
                     );
   }
 
-  getRecentPosts(): Observable<PostsModel[]>{
-    return this.http.get<PostsModel[]>(`${environment.backoffice}/posts?per_page=${LIMIT_OF_RECENT_POSTS + '&' + POSTS_WANTED_FIELDS }`)
+  getRecentPosts(limit?: number): Observable<PostsModel[]>{
+    let per_page = 0;
+    
+    per_page = (limit) ? limit : LIMIT_OF_RECENT_POSTS;
+
+    return this.http.get<PostsModel[]>(`${environment.backoffice}/posts?per_page=${per_page + '&' + POSTS_WANTED_FIELDS }`)
                     .pipe(
                       map((nonTransformedData: any[]) => {
                         return transformWPDataFormatIntoLocalDataFormat(nonTransformedData)
@@ -203,13 +229,62 @@ export class ApiService {
                     );
   }
 
-  getPostsFromCategory(categoryId: number): Observable<PostsModel[]>{
-    return this.http.get<PostsModel[]>(`${environment.backoffice}/posts?categories=${categoryId}&per_page=${LIMIT_OF_POSTS_PER_CATEGORIES_ON_HOME_PAGE}`)
+  getPostBySlug(slug: string): Observable<PostsModel>{
+    return this.http.get<PostsModel>(`${environment.backoffice}/posts?slug=${slug + '&' + POSTS_WANTED_FIELDS}`)
+                    .pipe(
+                      map((nonTransformedData: any) => {
+                          return transformWPDataFormatIntoLocalDataFormat(nonTransformedData)[0];
+                      }),
+                    )
+  }
+
+  getAuthors(): Observable<string[]>{
+    return this.http.get<string[]>(`${environment.backoffice}/acf-authors`);
+  }
+
+  getPostsFromCategory(limit?: number, categoryId?: number, excluded_id?: number): Observable<PostsModel[]>{
+    let per_page = 0;
+    let category = '';
+    let excludedId = '';
+    
+    per_page = (limit) ? limit : 100;
+    category = (categoryId) ? `categories=${categoryId}` : '';
+    excludedId = (excluded_id) ? `exclude=${excluded_id}` : '';
+    
+    return this.http.get<PostsModel[]>(`${environment.backoffice}/posts?${category}&${excludedId}&per_page=${per_page + '&' + POSTS_WANTED_FIELDS}`)
                     .pipe(
                       map((nonTransformedData: any[]) => {
                           return transformWPDataFormatIntoLocalDataFormat(nonTransformedData)
                       })
                     );
+  }
+
+  filterPosts(searchTerm?: string, categoryId?: number, created_at?: string, acfAuthor?: string): Observable<PostsModel[]>{
+    let searchFor: string = '';
+    let created: string = '';
+    let category: string = '';
+
+    if(categoryId){
+      category = `categories=${categoryId}`;
+    }
+    if(searchTerm){
+      searchFor = `search=${searchTerm}`;
+    }
+    if(created_at){
+      created = `after=${created_at}`;
+    }
+
+    // console.log(`${environment.backoffice}/posts?&${category}&${searchFor}&${created}`);
+    return this.http.get<PostsModel[]>(`${environment.backoffice}/posts?&${category}&${searchFor}&${created}`)
+                    .pipe(
+                      map((nonTransformedData: any[]) => {
+                        return transformWPDataFormatIntoLocalDataFormat(nonTransformedData);
+                      })
+                    );
+  }
+
+  subscibe(subscriber: any){
+    return this.http.post(`${environment.newsletter.endpoint}/subscribers?client_key=${environment.newsletter.clientKey}&client_secret=${environment.newsletter.clientSecret}`, subscriber);
   }
   
 }

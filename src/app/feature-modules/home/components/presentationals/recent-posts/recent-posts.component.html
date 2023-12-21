@@ -1,17 +1,24 @@
+<div class="mobile-main-title mb-16 w-[80%] md:w-[40%] xl:hidden">
+    <h1 class="text-secondary text-2xl font-bold xl:leading-10">
+        Fique por dentro das principais notícias da semana aqui.
+    </h1>
+</div>
 <div class="flex justify-between items-stretch">
-    <div class="main-title w-[21.875rem]">
+    <div class="main-title w-[21.875rem] hidden xl:block">
         <h1 class="text-secondary text-3xl font-bold leading-10">
             Fique por dentro das principais notícias da semana aqui.
         </h1>
     </div>
-    <div class="recent-posts-section">
-        <div class="posts-container xl:max-w-[53.625rem] overflow-x-auto">
-            <div class="posts w-max flex gap-x-8 justify-start items-stretch">
+    <div class="recent-posts-section w-full xl:w-auto">
+        <div class="posts-container relative w-full xl:max-w-[53.625rem] overflow-x-auto">
+            <div class="posts w-max flex gap-x-12 justify-start items-stretch">
                 <pontual-post-card
-                *ngFor="let post of this.recentPosts"
+                *ngFor="let post of this.recentPosts; let index = index"
+                [isFirstItem]="(index == 0) ? true : false"
                 [cardType]="'tall'"
                 [showPostImage]="false"
                 [postTitle]="post.title"
+                [postSlug]="post.slug"
                 [postImagePath]="post.imagePath"
                 [postCategory]="post.categories[0].name"
                 [postHighlightDescription]="post.highlightDescription"
@@ -20,27 +27,29 @@
                 />
             </div>
         </div>
-        <div class="indicators flex justify-end mt-16">
+        <div class="indicators flex justify-center xl:justify-end mt-16" *ngIf="this.recentPosts.length > this.numberOfPostsWithFullContent">
+            
             <div class="flex gap-x-6 items-center justify-center">
                 <div class="prev">
-                    <a href="javascript:void(0)" class="cursor-auto">
+                    <a href="javascript:void(0)" (click)="prev(this.recentPosts, 'recent-posts-section .posts-container', 'posts')" [class]="(this.activeIndex > 0) ? 'cursor-pointer' : 'cursor-auto'">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- #D3352A - Enabled -->
-                            <path d="M20 12H4M4 12L10 6M4 12L10 18" [attr.stroke]="'#CDD5E0'" stroke-width="1.64" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 12H4M4 12L10 6M4 12L10 18" [attr.stroke]="(this.activeIndex > 0) ? '#D3352A' : '#CDD5E0'" stroke-width="1.64" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>                            
                     </a>
                 </div>
                 <div class="indicators-pointers flex gap-x-2 items-center justify-center">
-                    <div class="active w-2 h-2 rounded-full"></div>
-                    <div class="w-2 h-2 rounded-full"></div>
-                    <div class="w-2 h-2 rounded-full"></div>
-                    <div class="w-2 h-2 rounded-full"></div>
+                    <div
+                    *ngFor="let dot of this.recentPosts; let index = index; let last = last"
+                    class="w-2 h-2 rounded-full"
+                    [ngClass]="{ 'active': this.activeIndex == index, 'hidden': last && (this.screenDimentions.getScreenType != 'mobile' && this.screenDimentions.getScreenType != 'tablet-sm' && this.screenDimentions.getScreenType != 'tablet-lg')}"
+                    ></div>
                 </div>
                 <div class="next">
-                    <a href="javascript:void(0)" class="cursor-pointer">
+                    <a href="javascript:void(0)" (click)="next(this.recentPosts, 'recent-posts-section .posts-container', 'posts')" [class]="(this.activeIndex < (this.recentPosts.length - 2)) ? 'cursor-pointer' : 'cursor-auto'">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- #D3352A - Enabled -->
-                            <path d="M4 12H20M20 12L14 6M20 12L14 18" [attr.stroke]="'#D3352A'" stroke-width="1.64" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 12H20M20 12L14 6M20 12L14 18" [attr.stroke]="(this.activeIndex < (this.recentPosts.length - this.numberOfPostsWithFullContent)) ? '#D3352A' : '#CDD5E0'" stroke-width="1.64" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </a>
                 </div>

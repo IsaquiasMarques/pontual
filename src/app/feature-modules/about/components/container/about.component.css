@@ -1,0 +1,8 @@
+.navigation-items ul li a{
+    transition: .3s;
+}
+.navigation-items ul li a.active{
+    background-color: #D3352A;
+    color: white;
+    font-weight: 700;
+}

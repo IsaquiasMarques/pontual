@@ -1,0 +1,31 @@
+<div class="content">
+    <div class="main-title mb-12">
+        <h1 class="text-secondary text-3xl font-bold">
+            Equipa
+        </h1>
+    </div>
+    <div class="body">
+        <div class="cards flex flex-wrap gap-[30px] justify-between items-stretch">
+
+            <div class="card" *ngFor="let member of this.pontualTeam">
+                <div class="image w-[18rem] h-[18rem] rounded overflow-hidden mb-6">
+                    <img src="{{ member.imagePath ?? 'assets/images/photos/no-photo.PNG' }}" class="w-full h-full object-cover object-center" alt="">
+                </div>
+                <div class="description mb-4">
+                    <p class="name text-primary font-bold font-['Inter'] text-xl leading-[30px]">
+                        {{ member.name }}
+                    </p>
+                    <p class="role font-['Inter'] text-lg text-secondary leading-[28px]">
+                        {{ member.role }}
+                    </p>
+                </div>
+                <div class="email">
+                    <p class=" font-['Inter'] text-grayText text-base leading-6">
+                        {{ member.email }}
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

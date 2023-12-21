@@ -1,0 +1,16 @@
+.newsletter-section div div.form{}
+.newsletter-section div div.form div.input{
+}
+.newsletter-section div div.form div.button{}
+
+.newsletter-section div div.form div.input input.invalid-input{
+    /* border: 1px solid #f33 !important; */
+}
+
+.newsletter-section div div.form div.input input.invalid-input::placeholder{
+    /* color: #f33; */
+}
+
+.newsletter-section div div.form div.input input:focus{
+    outline: none;
+}

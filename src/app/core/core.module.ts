@@ -8,22 +8,29 @@ import { CoreFacade } from './facades/core.facade';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ApiService } from './api/api.service';
+import { TwoDigitsFormaterPipe } from './pipes/two-digits/two-digits-formater.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
     NavigationComponent,
-    TranslatorPipe
+    TranslatorPipe,
+    TwoDigitsFormaterPipe
   ],
   imports: [
     SharedModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     HeaderComponent,
-    NavigationComponent
+    NavigationComponent,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     CoreFacade,
