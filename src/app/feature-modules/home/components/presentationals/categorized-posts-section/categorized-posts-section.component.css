@@ -1,0 +1,30 @@
+.indicators-pointers div{
+    background-color: #CDD5E0;
+    cursor: pointer;
+}
+.indicators-pointers div.active{
+    background-color: #D3352A !important;
+}
+
+
+@media screen and (min-width: 1440px) {
+    .posts-container.flex-wrap pontual-post-card:nth-child(4n+1){
+        overflow: hidden;
+        position: relative;
+        /* background-color: red; */
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .main-title h1 {
+        -webkit-line-clamp: 3;
+    }
+    .posts-container.flex-wrap pontual-post-card:nth-child(3n+1){
+        overflow: hidden;
+        position: relative;
+        /* background-color: red; */
+    }
+}
+
+/* .posts-container.flex-wrap pontual-post-card:nth-child(4n+1)::before{
+} */

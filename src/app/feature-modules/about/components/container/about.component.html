@@ -1,0 +1,34 @@
+<div class="body-content relative flex flex-col md:flex-row gap-x-36 justify-start items-stretch mb-[200px]">
+    <div class="navbar min-w-[11.375rem] h-full bg-white sticky top-[171px] md:top-[200px]">
+        <div class="navigation-items">
+            <ul class="flex py-10 md:py-0 md:flex-col gap-y-3">
+                <li class="">
+                    <a
+                    routerLink="/about/editoral-status"
+                    routerLinkActive="active"
+                    class="block p-3 rounded text-base font-medium text-grayText"
+                    >Estatuto Editorial</a>
+                </li>
+                <li>
+                    <a
+                    routerLink="/about/contacts"
+                    routerLinkActive="active"
+                    class="block p-3 rounded text-base font-medium text-grayText"
+                    >Contactos</a>
+                </li>
+                <li>
+                    <a
+                    routerLink="/about/team"
+                    routerLinkActive="active"
+                    class="block p-3 rounded text-base font-medium text-grayText"
+                    >Equipa</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-wrapper md:mt-10 h-full">
+        <div class="outlet">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

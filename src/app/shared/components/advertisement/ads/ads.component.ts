@@ -24,6 +24,7 @@ export class AdsComponent implements OnInit, OnChanges {
       },
     link: ''
   };
+  @Input() topLabel: boolean = true;
 
   imageMayAppear: boolean = false;
 
@@ -39,7 +40,7 @@ export class AdsComponent implements OnInit, OnChanges {
 
   openLink(link?: string){
     if(isPlatformBrowser(this.platformId)){
-      if(this.ad.link != '' || link != ''){
+      if((this.ad.link && this.ad.link != '') || (link && link != '')){
         window.open(this.ad.link, '_blank');
       }
     }

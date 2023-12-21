@@ -8,6 +8,7 @@ import { ImageObjectInterface } from '@shared/components/model/image-object';
 })
 export class PostCardComponent implements OnInit, OnChanges {
   
+  @Input() isFirstItem: boolean = false;
   @Input() cardType: 'short' | 'tall' = 'tall';
   @Input() postCategory: string = '';
   @Input() postImagePath: ImageObjectInterface = {
@@ -16,6 +17,7 @@ export class PostCardComponent implements OnInit, OnChanges {
     fullImageSize: ''
   };
   @Input() postTitle: string = '';
+  @Input() postSlug: string = '';
   @Input() postAuthor?: string = '';
   @Input() postCreatedAt: string = '';
   @Input() postHighlightDescription?: string = '';
@@ -37,6 +39,5 @@ export class PostCardComponent implements OnInit, OnChanges {
     this.imageMayAppear = true;
   }
   ngOnChanges(changes: SimpleChanges): void {
-    
   }
 }

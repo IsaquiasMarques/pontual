@@ -1,5 +1,5 @@
 <div class="header-container text-[.8rem] py-5 flex justify-between items-stretch">
-    <div class="column">
+    <div class="columm hidden sm:block">
         <div class="date mb-1">
             <p class="uppercase font-bold">
                 {{ today | date: 'fullDate' | translate_pt_ao }}
@@ -21,8 +21,10 @@
             <img src="assets/svg/icons/header/temperature.svg" alt="">
             <p class="font-bold">{{ temperatureInCelsium }}º C</p>
             <span class="text-[1rem]">&#x2022;</span>
+            <p class="font-bold">{{ hours$ | async | twoDigitsFormat }} : {{ minutes$ | async | twoDigitsFormat }}</p>
+        </div>
+        <div>
             <p class="text-grayText">Luanda, Angola</p>
         </div>
-        <div></div>
     </div>
 </div>

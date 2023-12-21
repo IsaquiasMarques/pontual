@@ -1,5 +1,6 @@
 import { CategoriesModel } from "@core/base-models/categories.model";
 
+export const CATEGORY_CONTAINER_ID: number = 4200;
 export const CATEGORY_CONTAINER_LABEL: string = 'Mais Pontual';
 export const CATEGORY_CONTAINER_SLUG: string = 'mais-pontual';
 

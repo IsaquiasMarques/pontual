@@ -4,6 +4,8 @@ import { PostsModel } from '@core/base-models/posts.model';
 import { AdsModel } from '@core/base-models/ads.model';
 import { PageStructure } from '@core/base-models/page-structure.mode';
 import { CategoriesWithPostsModel } from '@core/base-models/categories.model';
+import { SPECIAL_CATEGORIES } from '@core/config/special-categories';
+import { ScreenDimentions } from '@core/services/window/screen-dimentions.service';
 
 @Component({
   selector: 'pontual-home',
@@ -13,7 +15,8 @@ import { CategoriesWithPostsModel } from '@core/base-models/categories.model';
 export class HomeComponent implements OnInit, OnChanges{
 
   constructor(
-    private homeFacade: HomeFacade
+    private homeFacade: HomeFacade,
+    public screenDimentions: ScreenDimentions
   ){}
 
   bannerPosts: PostsModel[] = [];
@@ -25,6 +28,7 @@ export class HomeComponent implements OnInit, OnChanges{
   postsDisplaySectionStructure: PageStructure = {
     sections: []
   }
+  activeIndexes: { [key: string]: number } = {}
 
   ngOnInit(): void {
     this.homeFacade.getBannerPosts().subscribe((posts: PostsModel[]) => this.bannerPosts = posts);
@@ -35,51 +39,60 @@ export class HomeComponent implements OnInit, OnChanges{
     this.homeFacade.getCategoriesWithPosts().subscribe({
         next: (categoriesWithPostsReadyToUse: CategoriesWithPostsModel[]) => {
           let dataCollect: any[] = [];
+          let specialCategories: any[] = [];
 
           categoriesWithPostsReadyToUse.forEach((categoryWithPosts: CategoriesWithPostsModel) => {
-            dataCollect.push({
+            if(!(SPECIAL_CATEGORIES.includes(categoryWithPosts.label))){
+              dataCollect.push({
+                  sectionTitle: categoryWithPosts.label,
+                  sectionSlug: categoryWithPosts.label.toLocaleLowerCase(),
+                  entries: categoryWithPosts.entries
+              });
+              this.activeIndexes[categoryWithPosts.label.toLocaleLowerCase()] = 0;
+            }else{
+              specialCategories.push({
                 sectionTitle: categoryWithPosts.label,
+                sectionSlug: categoryWithPosts.label.toLocaleLowerCase(),
                 entries: categoryWithPosts.entries
             });
-            
+          }
           });
-          dataCollect.forEach((data: any) => {
-            this.postsDisplaySectionStructure.sections.push({
-              type: 'post',
-              sectionTitle: data.sectionTitle,
-              data: data.entries,
-            });
-          });
+          this.fullfillPageStructureSections(dataCollect);
+          this.fullfillPageStructureSections(specialCategories, true);
+
+          // console.log(this.postsDisplaySectionStructure)
 
           if(this.ads){
-
-            // console.log(this.ads)
-            
+            return;
             if(this.ads.length >= 2){
               this.addAdvertisementOnPageRow(3, {
                 type: 'advertisement',
                   sectionTitle: '',
-                  data: { imagePath: this.ads[1].imagePath, link: this.ads[1].link },
+                  data: { imagePath: this.ads[2].imagePath, link: this.ads[2].link },
               });
             }
             if(this.ads.length >= 3){
               this.addAdvertisementOnPageRow(6, {
                 type: 'advertisement',
                   sectionTitle: '',
-                  data: { imagePath: this.ads[2].imagePath, link: this.ads[2].link },
+                  data: { imagePath: this.ads[3].imagePath, link: this.ads[3].link },
               });
             }
-            // if(this.ads.length >= 4){
-            //   this.addAdvertisementOnPageRow(5, {
-            //     type: 'advertisement',
-            //       sectionTitle: '',
-            //       data: this.ads[3],
-            //   });
-            // }
-
           }
 
         }
+    });
+  }
+
+  fullfillPageStructureSections(categories: any[], isSpecialCategory: boolean = false){
+    categories.forEach((data: any) => {
+      this.postsDisplaySectionStructure.sections.push({
+        type: 'post',
+        sectionTitle: data.sectionTitle,
+        sectionSlug: data.sectionSlug,
+        data: data.entries,
+        postsWrap: isSpecialCategory
+      });
     });
   }
 

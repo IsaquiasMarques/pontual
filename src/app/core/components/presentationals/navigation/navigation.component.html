@@ -7,19 +7,32 @@
     <div class="limited-container flex justify-between items-center">
         
         <div class="menu-section">
-            <nav>
+            <div class="mobile-icon xl:hidden">
+                <a href="javascript:void(0)" (click)="toggleMobileMenu('button')">
+                    <svg *ngIf="!this.showMenu" width="24" height="24" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 7H11.6667M1 1H17M1 13H17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <svg *ngIf="this.showMenu" width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.40994 8.00019L15.7099 1.71019C15.8982 1.52188 16.004 1.26649 16.004 1.00019C16.004 0.733884 15.8982 0.478489 15.7099 0.290185C15.5216 0.101882 15.2662 -0.00390625 14.9999 -0.00390625C14.7336 -0.00390625 14.4782 0.101882 14.2899 0.290185L7.99994 6.59019L1.70994 0.290185C1.52164 0.101882 1.26624 -0.00390601 0.999939 -0.00390601C0.733637 -0.00390601 0.478243 0.101882 0.289939 0.290185C0.101635 0.478489 -0.00415253 0.733884 -0.00415254 1.00019C-0.00415254 1.26649 0.101635 1.52188 0.289939 1.71019L6.58994 8.00019L0.289939 14.2902C0.19621 14.3831 0.121816 14.4937 0.0710478 14.6156C0.0202791 14.7375 -0.00585938 14.8682 -0.00585938 15.0002C-0.00585938 15.1322 0.0202791 15.2629 0.0710478 15.3848C0.121816 15.5066 0.19621 15.6172 0.289939 15.7102C0.382902 15.8039 0.493503 15.8783 0.615362 15.9291C0.737221 15.9798 0.867927 16.006 0.999939 16.006C1.13195 16.006 1.26266 15.9798 1.38452 15.9291C1.50638 15.8783 1.61698 15.8039 1.70994 15.7102L7.99994 9.41018L14.2899 15.7102C14.3829 15.8039 14.4935 15.8783 14.6154 15.9291C14.7372 15.9798 14.8679 16.006 14.9999 16.006C15.132 16.006 15.2627 15.9798 15.3845 15.9291C15.5064 15.8783 15.617 15.8039 15.7099 15.7102C15.8037 15.6172 15.8781 15.5066 15.9288 15.3848C15.9796 15.2629 16.0057 15.1322 16.0057 15.0002C16.0057 14.8682 15.9796 14.7375 15.9288 14.6156C15.8781 14.4937 15.8037 14.3831 15.7099 14.2902L9.40994 8.00019Z" fill="white"/>
+                    </svg>
+                </a>
+            </div>
+            <nav class="hidden xl:block">
                 <ul class="flex gap-10 justify-between items-center">
                     <li
-                    class="flex justify-center items-center gap-x-3"
+                    class=""
                     *ngFor="let category of this.getHeaderCategories() | async"
                     >
-                        <a routerLink="">
-                            {{ category.label }}
-                        </a>
-                        <img
-                        *ngIf="category.label == this.containerLabel"
-                        src="assets/svg/icons/menu/list.svg" alt=""
+                        <a
+                        class="cursor-pointer flex justify-center items-center gap-x-3"
+                        (click)="navigateToDesktop(category.label, category.slug)"
                         >
+                            {{ category.label }}
+                            <img
+                            *ngIf="category.label == this.containerLabel"
+                            src="assets/svg/icons/menu/list.svg" alt=""
+                            >
+                        </a>
                     </li>
                 </ul>
             </nav>
@@ -37,6 +50,105 @@
                         stroke-linejoin="round"/>
                     </svg>
                 </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="mobile-menu-panel bg-white" [ngClass]="{ 'h-[775px] overflow-y-auto': this.showMenu, 'h-[0px] overflow-hidden': !this.showMenu }">
+    <div class="menu-content mt-3">
+        <ul class="flex flex-col gap-y-3 justify-start items-start">
+            <li
+            class="w-full"
+            *ngFor="let category of this.getHeaderCategories() | async"
+            >
+                <div class="items flex justify-start pl-5 py-3 items-center gap-x-3">
+                    <a
+                    class="text-base cursor-pointer"
+                    (click)="navigateTo(category.label, category.slug)"
+                    >
+                    <!-- (click)="this.toggleMobileMenu(category.label)" -->
+                        {{ category.label }}
+                    </a>
+                    <img
+                    *ngIf="category.label == this.containerLabel"
+                    src="assets/svg/icons/menu/list-black.svg" alt=""
+                    >
+                </div>
+                <div
+                class="dropdown bg-[#F9F9F9] w-full"
+                [ngClass]="{
+                    'h-[48px]': this.showCategoryContainerDropdow && category.childrens?.length == 1,
+                    'h-[96px]': this.showCategoryContainerDropdow && category.childrens?.length == 2,
+                    'h-[144px]': this.showCategoryContainerDropdow && category.childrens?.length == 3,
+                    'h-[192px]': this.showCategoryContainerDropdow && category.childrens?.length == 4,
+                    'h-[240px]': this.showCategoryContainerDropdow && category.childrens?.length == 5,
+                    'h-[288px]': this.showCategoryContainerDropdow && category.childrens?.length == 6,
+                    'h-[336px]': this.showCategoryContainerDropdow && category.childrens?.length == 7,
+                    'h-[384px]': this.showCategoryContainerDropdow && category.childrens?.length == 8,
+                    'h-[432px]': this.showCategoryContainerDropdow && category.childrens?.length == 9,
+                    'h-[480px]': this.showCategoryContainerDropdow && category.childrens?.length == 10,
+                    'overflow-y-auto': this.showCategoryContainerDropdow,
+                    'h-[0px] overflow-hidden': !this.showCategoryContainerDropdow
+                }"
+                *ngIf="category.label == this.containerLabel"
+                >
+                    <div class="content border-y pl-10 py-3">
+                        <li *ngFor="let subcategory of category.childrens">
+                            <a
+                            class="text-base text-primary"
+                            [routerLink]="'/posts/' + subcategory.slug"
+                            (click)="this.toggleMobileMenu(subcategory.label)"
+                            >
+                                {{ subcategory.label }}
+                            </a>
+                        </li>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="desktop-menu-panel max-h-[556px] overflow-hidden bg-[#F9F9F9] hidden xl:block"
+[ngClass]="{ 'h-[556px]': this.showDesktopSubmenu, 'h-[0px]': !this.showDesktopSubmenu }"
+>
+    <div class="limited-container py-16 flex justify-between items-stretch overflow-hidden">
+        <div class="subcategories min-w-[25%] no-scroll overflow-y-auto max-h-[400px]">
+            <div class="main-title mb-5">
+                <h1 class="text-secondary text-3xl font-bold leading-10">
+                    + Pontual
+                </h1>
+            </div>
+            <div class="content-desktop" *ngFor="let category of this.getHeaderCategories() | async">
+                <div *ngIf="category.label == this.containerLabel">
+                    <li class=" list-none py-2" *ngFor="let subcategory of category.childrens">
+                        <a
+                        class="text-base text-primary"
+                        [routerLink]="'/posts/' + subcategory.slug"
+                        (click)="this.toggleDesktopSubmenu(subcategory.label)"
+                        >
+                            {{ subcategory.label }}
+                        </a>
+                </div>
+            </div>
+        </div>
+        <div class="limited-posts">
+            <div class="posts-container menu-section flex w-full flex-wrap gap-x-12 gap-y-16 justify-center lg:justify-start items-stretch">
+
+                <pontual-post-card
+                *ngFor="let post of mostRecentPosts; let index = index"
+                [isFirstItem]="(index == 0) ? true : false"
+                [showPostImage]="true"
+                [postImagePath]="post.imagePath"
+                [postTitle]="post.title"
+                [postSlug]="post.slug"
+                [postCategory]="post.categories[0].name"
+                [postHighlightDescription]="post.highlightDescription"
+                [postAuthor]="post.author"
+                [postCreatedAt]="post.created_at"
+                />
+        
             </div>
         </div>
 

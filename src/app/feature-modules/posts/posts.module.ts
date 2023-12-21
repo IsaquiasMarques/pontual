@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { PostsRoutingModule } from './posts-routing.module';
-import { PostsComponent } from './posts.component';
+import { PostsComponent } from './components/container/posts.component';
+import { SharedModule } from '@shared/shared.module';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -10,8 +11,9 @@ import { PostsComponent } from './posts.component';
     PostsComponent
   ],
   imports: [
-    CommonModule,
-    PostsRoutingModule
+    SharedModule,
+    PostsRoutingModule,
+    FormsModule
   ]
 })
 export class PostsModule { }

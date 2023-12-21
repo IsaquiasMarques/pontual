@@ -28,7 +28,8 @@ import { TurnUrlablePipe } from './pipes/image-lazy-loading/turn-urlable.pipe';
     CarouselComponent,
     ChipComponent,
     PostCardComponent,
-    AdsComponent
+    AdsComponent,
+    TurnUrlablePipe
   ]
 })
 export class SharedModule { }

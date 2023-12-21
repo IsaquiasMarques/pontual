@@ -1,9 +1,10 @@
 <div
 *ngIf="this.ad"
 class="ads {{ this.width }} {{ this.height }}"
-
 >
-    <h1 class="text-center font-light text-sm text-[#677489] text-opacity-60 uppercase mb-2">-Publicidade-</h1>
+    <h1 class="text-center font-light text-sm text-[#677489] text-opacity-60 uppercase mb-2"
+    *ngIf="this.topLabel"
+    >-Publicidade-</h1>
     <a (click)="openLink()" [ngClass]="{'cursor-pointer': this.ad.link != ''}">
         <div class="image-section relative w-full h-full bg-center bg-cover"
         [style.backgroundImage]="this.ad.imagePath.thumbnailImageSize | turnUrlable"

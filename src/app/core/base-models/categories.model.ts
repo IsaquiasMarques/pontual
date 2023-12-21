@@ -13,5 +13,6 @@ export interface CategoriesModel{
 export interface CategoriesWithPostsModel{
     categoryId: number,
     label: string,
+    slug: string,
     entries: PostsModel[]
 }

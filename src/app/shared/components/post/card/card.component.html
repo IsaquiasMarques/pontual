@@ -1,21 +1,25 @@
-<div class="card-tall h-full" *ngIf="this.cardType == 'tall'; else short">
-    <div class="card-tall h-full xl:max-w-[17.813rem]">
+<div class="card-tall relative h-full"
+[ngClass]="{ 'first-item': isFirstItem }"
+*ngIf="this.cardType == 'tall'; else short">
+    <div class="card-tall-content h-full max-w-[17.813rem]">
         <div class="post-descriptions flex flex-col justify-around items-stretch">
             <div class="post-card-header relative mb-4">
-                <div class="post-image h-[12.5rem]" *ngIf="this.showPostImage">
-                    <div class="img relative w-full h-full rounded-[4px] bg-cover bg-center overflow-hidden"
-                    [style.backgroundImage]="this.postImagePath.thumbnailImageSize | turnUrlable"
-                    > 
-                        <img
-                        (load)="appearWhenLoaded($event)"
-                        [ngClass]="{
-                            'showLazyLoadImageWithTransition': this.imageMayAppear,
-                            'notShowLazyLoadImageWithTransition': !this.imageMayAppear
-                        }"
-                        [ngSrc]="this.postImagePath.mediumImageSize" fill
-                        class="w-full h-full object-cover object-center" alt="">
+                <a routerLink="/post/{{ this.postSlug }}">
+                    <div class="post-image h-[12.5rem]" *ngIf="this.showPostImage">
+                        <div class="img relative w-full h-full rounded-[4px] bg-cover bg-center overflow-hidden"
+                        [style.backgroundImage]="this.postImagePath.thumbnailImageSize | turnUrlable"
+                        > 
+                            <img
+                            (load)="appearWhenLoaded($event)"
+                            [ngClass]="{
+                                'showLazyLoadImageWithTransition': this.imageMayAppear,
+                                'notShowLazyLoadImageWithTransition': !this.imageMayAppear
+                            }"
+                            [ngSrc]="this.postImagePath.mediumImageSize" fill
+                            class="w-full h-full object-cover object-center" alt="">
+                        </div>
                     </div>
-                </div>
+                </a>
                 <div class="post-category"
                 [ngClass]="{ 'absolute top-4 left-4 z-[2]': this.showPostImage }"
                 >
@@ -33,7 +37,7 @@
             <div class="post-card-body">
                 <div class="post-title">
                     <h1 class="card-tall-main-title text-secondary text-2xl font-medium leading-8">
-                        <a routerLink="/home" [innerHTML]="this.postTitle">
+                        <a routerLink="/post/{{ this.postSlug }}" [innerHTML]="this.postTitle">
                             <!-- {{ this.postTitle }} -->
                         </a>
                     </h1>
@@ -62,8 +66,27 @@
 </div>
 
 <ng-template #short>
-    <div class="card-short xl:my-1 xl-1440:my-7 py-4 border-y border-[#EEEEEE99] border-opacity-[60%] flex gap-3 justify-between items-stretch">
-        <div class="post-descriptions w-[17.438rem]">
+    <div class="card-short w-full my-3 xl:my-1 xl-1440:my-3 py-4 border-y border-[#EEEEEE99] border-opacity-[60%] flex gap-3 justify-start items-stretch">
+        <div
+        *ngIf="this.postImagePath"
+        class="post-image w-[8.375rem] h-[7.75rem] xl:w-[8.375rem] xl:h-auto rounded-[4px] overflow-hidden"
+        >
+            <a routerLink="/post/{{ this.postSlug }}">
+                <div class="img relative bg-cover bg-center w-full h-full"
+                [style.backgroundImage]="this.postImagePath.thumbnailImageSize | turnUrlable"
+                >
+                    <img
+                    (load)="appearWhenLoaded($event)"
+                    [ngClass]="{
+                        'showLazyLoadImageWithTransition': this.imageMayAppear,
+                        'notShowLazyLoadImageWithTransition': !this.imageMayAppear
+                    }"
+                    class="w-full h-full object-cover object-center"
+                    [ngSrc]="this.postImagePath.mediumImageSize" fill alt="">
+                </div>
+            </a>
+        </div>
+        <div class="post-descriptions w-[12rem] xl:w-[17.438rem]">
             <div class="post-category">
                 <pontual-chip
                 [bgColor]="'primary'"
@@ -75,9 +98,9 @@
                 [gap]="'gap-2'"
                 />
             </div>
-            <div class="post-title my-4">
+            <div class="post-title my-3 xl:my-4">
                 <h1 class="card-short-main-title text-secondary text-base font-bold leading-6">
-                    <a routerLink="/home" [innerHTML]="this.postTitle">
+                    <a routerLink="/post/{{ this.postSlug }}" [innerHTML]="this.postTitle">
                         <!-- {{ this.postTitle }} -->
                     </a>
                 </h1>
@@ -94,25 +117,6 @@
                     </p>
                 </div>
             </div>
-        </div>
-        <div
-        *ngIf="this.postImagePath"
-        class="post-image w-[7.688rem] rounded-[4px] overflow-hidden"
-        >
-            <a routerLink="/home">
-                <div class="img relative bg-cover bg-center w-full h-full"
-                [style.backgroundImage]="this.postImagePath.thumbnailImageSize | turnUrlable"
-                >
-                    <img
-                    (load)="appearWhenLoaded($event)"
-                    [ngClass]="{
-                        'showLazyLoadImageWithTransition': this.imageMayAppear,
-                        'notShowLazyLoadImageWithTransition': !this.imageMayAppear
-                    }"
-                    class="w-full h-full object-cover object-center"
-                    [ngSrc]="this.postImagePath.mediumImageSize" fill alt="">
-                </div>
-            </a>
         </div>
     </div>
 </ng-template>
