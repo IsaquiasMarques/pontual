@@ -12,7 +12,6 @@
     "dev:ssr": "ng run pontual:serve-ssr",
     "serve:ssr": "node dist/pontual/server/main.js",
     "build:ssr": "ng build && ng run pontual:server",
-    "vercel build": "npm run build:ssr",
     "prerender": "ng run pontual:prerender"
   },
   "private": true,
