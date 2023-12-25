@@ -1,0 +1,10 @@
+{
+    "version": 2,
+    "builds": [
+      { "src": "dist/pontual/browser/*", "use": "@vercel/static" },
+      { "src": "dist/pontual/server/*", "use": "@vercel/node" }
+    ],
+    "routes": [
+      { "src": "/(.*)", "dest": "/dist/pontual/server/main.js" }
+    ]
+}

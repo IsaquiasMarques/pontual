@@ -1,5 +1,5 @@
 .mobile-menu-panel,
-.mobile-menu-panel .menu-content ul li .dropdown,
+.mobile-menu-panel .menu-content ul li .subcategories-dropdown-mobile,
 .desktop-menu-panel
 {
     transition: .6s;

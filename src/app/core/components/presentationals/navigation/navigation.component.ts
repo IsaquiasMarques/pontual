@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { ApiService } from '@core/api/api.service';
+import { NavigationEnd, Router } from '@angular/router';
+
 import { CategoriesModel } from '@core/base-models/categories.model';
 import { PostsModel } from '@core/base-models/posts.model';
 import { CoreFacade } from '@core/facades/core.facade';
 import { CATEGORY_CONTAINER_LABEL } from '@core/mock/Categories.mock';
-import { ScreenDimentions } from '@core/services/window/screen-dimentions.service';
 
 import { Observable, map } from 'rxjs';
 import { PostsFacade } from 'src/app/feature-modules/posts/facades/posts.facade';
@@ -19,14 +18,13 @@ export class NavigationComponent implements OnInit {
 
   constructor(
     public coreFacade: CoreFacade,
-    public screenDimentions: ScreenDimentions,
     private router: Router,
     private postsFacade: PostsFacade
   ){}
 
   containerLabel: string = CATEGORY_CONTAINER_LABEL;
   showMenu: boolean = false;
-  showCategoryContainerDropdow: boolean = false;
+  showCategoryContainerDropdown: boolean = false;
   ContainerDropdownHeightForMobile: number = 0;
   
   showDesktopSubmenu: boolean = false;
@@ -60,7 +58,7 @@ export class NavigationComponent implements OnInit {
 
   navigateTo(categoryLabel: string, categorySlug: string){
     if(categoryLabel == this.containerLabel){
-      this.showCategoryContainerDropdow = !this.showCategoryContainerDropdow;
+      this.showCategoryContainerDropdown = !this.showCategoryContainerDropdown;
       return;
     }
 
