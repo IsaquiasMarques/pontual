@@ -55,6 +55,7 @@
 
     </div>
 </div>
+
 <div class="mobile-menu-panel bg-white" [ngClass]="{ 'h-[775px] overflow-y-auto': this.showMenu, 'h-[0px] overflow-hidden': !this.showMenu }">
     <div class="menu-content mt-3">
         <ul class="flex flex-col gap-y-3 justify-start items-start">
@@ -67,7 +68,6 @@
                     class="text-base cursor-pointer"
                     (click)="navigateTo(category.label, category.slug)"
                     >
-                    <!-- (click)="this.toggleMobileMenu(category.label)" -->
                         {{ category.label }}
                     </a>
                     <img
@@ -76,33 +76,31 @@
                     >
                 </div>
                 <div
-                class="dropdown bg-[#F9F9F9] w-full"
+                class="subcategories-dropdown-mobile bg-[#F9F9F9] w-full"
                 [ngClass]="{
-                    'h-[48px]': this.showCategoryContainerDropdow && category.childrens?.length == 1,
-                    'h-[96px]': this.showCategoryContainerDropdow && category.childrens?.length == 2,
-                    'h-[144px]': this.showCategoryContainerDropdow && category.childrens?.length == 3,
-                    'h-[192px]': this.showCategoryContainerDropdow && category.childrens?.length == 4,
-                    'h-[240px]': this.showCategoryContainerDropdow && category.childrens?.length == 5,
-                    'h-[288px]': this.showCategoryContainerDropdow && category.childrens?.length == 6,
-                    'h-[336px]': this.showCategoryContainerDropdow && category.childrens?.length == 7,
-                    'h-[384px]': this.showCategoryContainerDropdow && category.childrens?.length == 8,
-                    'h-[432px]': this.showCategoryContainerDropdow && category.childrens?.length == 9,
-                    'h-[480px]': this.showCategoryContainerDropdow && category.childrens?.length == 10,
-                    'overflow-y-auto': this.showCategoryContainerDropdow,
-                    'h-[0px] overflow-hidden': !this.showCategoryContainerDropdow
+                    'h-[0px] overflow-hidden': !this.showCategoryContainerDropdown,
+                    'h-[48px] overflow-y-auto': this.showCategoryContainerDropdown && category.childrens?.length == 1,
+                    'h-[96px] overflow-y-auto': this.showCategoryContainerDropdown && category.childrens?.length == 2,
+                    'h-[144px] overflow-y-auto': this.showCategoryContainerDropdown && category.childrens?.length == 3,
+                    'h-[192px] overflow-y-auto': this.showCategoryContainerDropdown && category.childrens?.length == 4,
+                    'h-[240px] overflow-y-auto': this.showCategoryContainerDropdown && category.childrens?.length == 5,
+                    'h-[288px] overflow-y-auto': this.showCategoryContainerDropdown && category.childrens?.length == 6,
+                    'h-[336px] overflow-y-auto': this.showCategoryContainerDropdown && category.childrens?.length == 7,
+                    'h-[384px] overflow-y-auto': this.showCategoryContainerDropdown && category.childrens?.length == 8,
+                    'h-[432px] overflow-y-auto': this.showCategoryContainerDropdown && category.childrens?.length == 9,
+                    'h-[480px] overflow-y-auto': this.showCategoryContainerDropdown && category.childrens?.length == 10,
                 }"
-                *ngIf="category.label == this.containerLabel"
+                *ngIf="category.label == this.containerLabel && this.category.childrens?.length != 0"
                 >
-                    <div class="content border-y pl-10 py-3">
-                        <li *ngFor="let subcategory of category.childrens">
-                            <a
-                            class="text-base text-primary"
-                            [routerLink]="'/posts/' + subcategory.slug"
-                            (click)="this.toggleMobileMenu(subcategory.label)"
-                            >
-                                {{ subcategory.label }}
-                            </a>
-                        </li>
+                    <div class="subcategories-dropdown-content border-y pl-10 py-3">
+                        <a
+                        *ngFor="let subcategory of category.childrens"
+                        class="text-base text-primary"
+                        [routerLink]="'/posts/' + subcategory.slug"
+                        (click)="this.toggleMobileMenu(subcategory.label)"
+                        >
+                            {{ subcategory.label }}
+                        </a>
                     </div>
                 </div>
             </li>
