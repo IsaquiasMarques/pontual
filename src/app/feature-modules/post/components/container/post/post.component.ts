@@ -6,6 +6,7 @@ import { PostsModel } from '@core/base-models/posts.model';
 import { map } from 'rxjs';
 import { ScreenDimentions } from '@core/services/window/screen-dimentions.service';
 import { PONTUAL_TEAM, PontualTeam, ROLE_IN_CASE_POST_OWNER_IS_CHAT_GPT, USER_ROLE_FROM_BACKOFFICE_NOT_INCLUDED_ON_PONTUAL_TEAM } from '@core/mock/team.mock';
+import { MetaTagsService } from '@shared/services/meta/meta-tags.service';
 
 @Component({
   selector: 'pontual-post',
@@ -34,7 +35,8 @@ export class PostComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private postFacade: PostFacade,
-    public screenDimentions: ScreenDimentions
+    public screenDimentions: ScreenDimentions,
+    private metaTagService: MetaTagsService
   ){ }
 
   ngOnInit(): void {
@@ -43,6 +45,9 @@ export class PostComponent implements OnInit {
       this.postFacade.getPostBySlug(postSlug)
                     .pipe(
                       map((thePost: PostsModel) => {
+
+                        this.metaTagService.addPostDetailsForSocialMediaShareProccess(thePost);
+
                         this.postFacade.getRelatedPosts(thePost.categories[0].id, thePost.id).subscribe((relatedPosts: PostsModel[]) => this.relatedPosts = relatedPosts)
                         return thePost;
                       })

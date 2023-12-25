@@ -18,6 +18,7 @@ import { SharedModule } from '@shared/shared.module';
     AppRoutingModule,
     CoreModule,
     SharedModule,
+    // MetaModule.forRoot()
     // registerLocaleData(localeAO, 'pt'),
   ],
   providers: [
