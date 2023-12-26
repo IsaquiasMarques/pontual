@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, NgZone, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PostFacade } from '../../../facades/post.facade';
 import { AdsModel } from '@core/base-models/ads.model';
@@ -7,6 +7,7 @@ import { map } from 'rxjs';
 import { ScreenDimentions } from '@core/services/window/screen-dimentions.service';
 import { PONTUAL_TEAM, PontualTeam, ROLE_IN_CASE_POST_OWNER_IS_CHAT_GPT, USER_ROLE_FROM_BACKOFFICE_NOT_INCLUDED_ON_PONTUAL_TEAM } from '@core/mock/team.mock';
 import { MetaTagsService } from '@shared/services/meta/meta-tags.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'pontual-post',
@@ -36,7 +37,9 @@ export class PostComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private postFacade: PostFacade,
     public screenDimentions: ScreenDimentions,
-    private metaTagService: MetaTagsService
+    private metaTagService: MetaTagsService,
+    @Inject(PLATFORM_ID) private platformId: any,
+    private _ngZone: NgZone
   ){ }
 
   ngOnInit(): void {
@@ -77,6 +80,28 @@ export class PostComponent implements OnInit {
     }
 
     return findedPerson.role;
+  }
+
+  sharerFacebook(){
+    if(isPlatformBrowser(this.platformId)){
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}%2F&amp;src=sdkpreparse`, '_blank')
+    }
+  }
+
+  sharerTwitter(){
+    if(isPlatformBrowser(this.platformId)){
+      this._ngZone.runOutsideAngular(() => {
+        window.open(`https://twitter.com/intent/tweet?text=${window.location.href}`, '_blank');
+      });
+    }
+  }
+
+  sharerLinkedin(){
+    if(isPlatformBrowser(this.platformId)){
+      this._ngZone.runOutsideAngular(() => {
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?mini=true&url=${window.location.href}`, '_blank');
+      });
+    }
   }
 
 }
