@@ -32,6 +32,7 @@ export class AppComponent implements OnInit, OnChanges, AfterViewInit {
   // subscribing
   subscribeFormGroup: any;
   hasSubscribed: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  hasError: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isSubscribing: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   emailIsInvalid: boolean = false;
@@ -74,13 +75,14 @@ export class AppComponent implements OnInit, OnChanges, AfterViewInit {
         if(response.id){
           this.hasSubscribed.next(true);
         }else{
-          this.hasSubscribed.next(false);
+          this.hasError.next(true);
         }
 
-        if(isPlatformBrowser(this.platformId)){7
+        if(isPlatformBrowser(this.platformId)){
           this._ngZone.runOutsideAngular(() => {
             setTimeout(() => {
               this.hasSubscribed.next(false);
+              this.hasError.next(false);
             }, 4000);
           });
         }

@@ -75,9 +75,9 @@ export class NavigationComponent implements OnInit {
 
   toggleDesktopSubmenu(category: string){
     if(category === this.containerLabel){
+      this.showDesktopSubmenu = true;
       return;
     }
-    this.showDesktopSubmenu = true;
   }
 
   closeMenu(){
