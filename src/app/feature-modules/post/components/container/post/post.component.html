@@ -129,8 +129,8 @@
     <div class="body-section relative mt-12 flex flex-col lg:flex-row lg:justify-between lg:items-stretch">
         <div class="the-content lg:max-w-[60%] text-base leading-6 text-[#808080] font-['Inter']" [innerHTML]="this.thePost.fullDescription">
         </div>
-        <div class="aside-section w-fit left-0 sticky mt-16 lg:mt-0 lg:top-[140px]">
-            <div class="related-posts">
+        <div class="aside-section w-fit min-w-[30%] left-0 sticky mt-16 lg:mt-0 lg:top-[140px]">
+            <div class="related-posts" *ngIf="this.relatedPosts.length > 0">
                 <div class="title mb-3">
                     <h1 class="text-secondary text-2xl font-bold leading-8">
                         Notícias Relacionadas
@@ -151,7 +151,9 @@
                     </div>
                 </div>
             </div>
-            <div class="advertisement mt-20">
+            <div class="advertisement"
+            [ngClass]="{ 'mt-20': this.relatedPosts.length > 0 }"
+            >
                 <div class="advertisement mb-10" *ngIf="this.ads && this.ads[1]">
                     <pontual-ads
                     [topLabel]="true"

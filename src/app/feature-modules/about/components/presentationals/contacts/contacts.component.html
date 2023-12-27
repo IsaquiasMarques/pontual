@@ -10,12 +10,12 @@
             <div class="card rounded w-[18rem] bg-[#FBFCFD] p-6 max-w-[18rem]">
                 <div class="title mb-4">
                     <h3 class="text-primary font-bold">
-                        Redação
+                        Redacção
                     </h3>
                 </div>
                 <div class="description">
                     <p class="text-grayText leading-6">
-                        Luanda, Projecto Nova Vida, Rua 69A
+                        {{ (this.aboutDataCenter.contacts | async).redaccao }}
                     </p>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="description">
                     <p class="text-grayText leading-6">
-                        + 244 932 570 511
+                        {{ (this.aboutDataCenter.contacts | async).telefone }}
                     </p>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="description">
                     <p class="text-grayText leading-6">
-                        geralpress&#64;pontual.com
+                        {{ (this.aboutDataCenter.contacts | async).email }}
                     </p>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                 </div>
                 <div class="description">
                     <p class="text-grayText leading-6">
-                        work&#64;pontual.com
+                        {{ (this.aboutDataCenter.contacts | async).publicidades_e_parcerias }}
                     </p>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                 </div>
                 <div class="description">
                     <p class="text-grayText leading-6">
-                        + 244 931183868
+                        {{ (this.aboutDataCenter.contacts | async).denuncias }}
                     </p>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                     <div class="social-media flex gap-4 justify-start items-center">
 
                         <div class="">
-                            <a href="">
+                            <a href="{{ (this.aboutDataCenter.socialMedia | async).facebook }}" target="_blank">
                                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="32" height="32" rx="16" fill="#030616" fill-opacity="0.03"/>
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M8 15.9977C8 11.5874 11.5874 8 15.9977 8V8.00013H16.0023C20.4126 8.00013 24 11.5875 24 15.9978C24 20.4079 20.4126 23.9955 16.0023 23.9955C14.3755 23.9955 12.8662 23.5113 11.6015 22.6744L8.52653 23.6568L9.52334 20.6854C8.56422 19.3688 8 17.7467 8 15.9977ZM13.2568 11.6675C13.4919 11.677 13.6094 11.6911 13.7645 12.0625C13.8146 12.1835 13.8835 12.3504 13.9589 12.5334C14.1738 13.0546 14.4421 13.7057 14.4839 13.7927C14.5403 13.9103 14.5968 14.0702 14.5168 14.2253C14.4468 14.3741 14.385 14.4455 14.282 14.5645C14.2743 14.5734 14.2664 14.5826 14.2582 14.5921C14.2079 14.6505 14.1584 14.7028 14.1091 14.755C14.0432 14.8248 13.9775 14.8943 13.9102 14.9777C13.9084 14.9799 13.9065 14.9821 13.9046 14.9843C13.798 15.1094 13.6823 15.2452 13.8163 15.4761C13.9526 15.7065 14.4227 16.4728 15.1139 17.0886C15.9342 17.8182 16.6117 18.0921 16.9173 18.2157C16.9445 18.2267 16.9688 18.2365 16.99 18.2453C17.1826 18.3253 17.4131 18.3065 17.5542 18.156C17.7071 17.9912 17.8909 17.7334 18.0821 17.4651C18.1144 17.4197 18.1469 17.3741 18.1796 17.3285C18.3393 17.1028 18.5414 17.0746 18.7531 17.1544C18.9694 17.2297 20.112 17.7939 20.347 17.9115C20.395 17.9355 20.4397 17.957 20.4809 17.9768C20.6413 18.0539 20.7488 18.1056 20.7937 18.1842C20.8502 18.2829 20.8502 18.7484 20.6574 19.2939C20.4646 19.8391 19.6981 20.2907 19.087 20.4223C18.6686 20.5116 18.1231 20.5822 16.2847 19.8206C14.1072 18.9189 12.6477 16.8032 12.3508 16.3729C12.3272 16.3386 12.3109 16.315 12.3022 16.3036C12.2989 16.2991 12.295 16.2937 12.2905 16.2875C12.1411 16.0833 11.3525 15.0051 11.3525 13.8915C11.3525 12.7764 11.9034 12.2166 12.15 11.9659C12.1572 11.9587 12.164 11.9517 12.1706 11.945C12.3634 11.7475 12.6831 11.6582 12.9888 11.6582C13.0782 11.6586 13.1676 11.6617 13.2568 11.6675Z" fill="#D3352A"/>
@@ -85,7 +85,7 @@
                             </a>
                         </div>
                         <div class="">
-                            <a href="">
+                            <a href="{{ (this.aboutDataCenter.socialMedia | async).instagram }}" target="_blank">
                                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="32" height="32" rx="16" fill="#030616" fill-opacity="0.03"/>
                                     <g clip-path="url(#clip0_818_3395)">
@@ -102,7 +102,7 @@
                             </a>
                         </div>
                         <div class="">
-                            <a href="">
+                            <a href="{{ (this.aboutDataCenter.socialMedia | async).youtube }}" target="_blank">
                                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="32" height="32" rx="16" fill="#030616" fill-opacity="0.03"/>
                                     <path d="M23.8406 12.8002C23.8406 12.8002 23.6844 11.6971 23.2031 11.2127C22.5938 10.5752 21.9125 10.5721 21.6 10.5346C19.3625 10.3721 16.0031 10.3721 16.0031 10.3721H15.9969C15.9969 10.3721 12.6375 10.3721 10.4 10.5346C10.0875 10.5721 9.40625 10.5752 8.79688 11.2127C8.31563 11.6971 8.1625 12.8002 8.1625 12.8002C8.1625 12.8002 8 14.0971 8 15.3908V16.6033C8 17.8971 8.15937 19.1939 8.15937 19.1939C8.15937 19.1939 8.31562 20.2971 8.79375 20.7814C9.40313 21.4189 10.2031 21.3971 10.5594 21.4658C11.8406 21.5877 16 21.6252 16 21.6252C16 21.6252 19.3625 21.6189 21.6 21.4596C21.9125 21.4221 22.5938 21.4189 23.2031 20.7814C23.6844 20.2971 23.8406 19.1939 23.8406 19.1939C23.8406 19.1939 24 17.9002 24 16.6033V15.3908C24 14.0971 23.8406 12.8002 23.8406 12.8002ZM14.3469 18.0752V13.5783L18.6687 15.8346L14.3469 18.0752Z" fill="#D3352A"/>
@@ -110,7 +110,7 @@
                             </a>
                         </div>
                         <div class="">
-                            <a href="">
+                            <a href="{{ (this.aboutDataCenter.socialMedia | async).facebook }}" target="_blank">
                                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="32" height="32" rx="16" fill="#030616" fill-opacity="0.03"/>
                                     <g clip-path="url(#clip0_818_3399)">
@@ -125,7 +125,7 @@
                             </a>
                         </div>
                         <div class="">
-                            <a href="">
+                            <a href="{{ (this.aboutDataCenter.socialMedia | async).twitter }}" target="_blank">
                                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="32" height="32" rx="16" fill="#030616" fill-opacity="0.03"/>
                                     <path d="M20.2179 9.26953H22.4668L17.5535 14.8852L23.3337 22.5268H18.8078L15.263 17.8922L11.207 22.5268H8.95661L14.2119 16.5203L8.66699 9.26953H13.3077L16.5119 13.5058L20.2179 9.26953ZM19.4285 21.1807H20.6747L12.6306 10.545H11.2933L19.4285 21.1807Z" fill="#D3352A"/>

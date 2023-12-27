@@ -1,6 +1,10 @@
 .mobile-menu-panel,
 .mobile-menu-panel .menu-content ul li .subcategories-dropdown-mobile,
-.desktop-menu-panel
+.desktop-menu-panel,
+.posts-search-container
 {
     transition: .6s;
 }
+/* .posts-search-container{
+    transition: height .6s ease-in-out;
+} */

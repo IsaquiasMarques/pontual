@@ -30,6 +30,9 @@ export class NavigationComponent implements OnInit {
   showDesktopSubmenu: boolean = false;
   mostRecentPosts: PostsModel[] = [];
 
+  searchInput: string = '';
+  searchedPosts: PostsModel[] = [];
+
   ngOnInit(): void {
     this.router.events.subscribe((event: any) => {
       if(event instanceof NavigationEnd){
@@ -87,5 +90,14 @@ export class NavigationComponent implements OnInit {
     this.showDesktopSubmenu = false;
   }
 
+  searchPost(){
+    if(this.searchInput.length != 0){
+      this.coreFacade.searchPostsByTerm(this.searchInput).subscribe((incomingData: PostsModel[]) => this.searchedPosts = incomingData);
+      return;
+    }
+
+    this.searchedPosts = [];
+
+  }
 
 }

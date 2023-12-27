@@ -283,6 +283,10 @@ export class ApiService {
                     );
   }
 
+  getAboutInfo(){
+    return this.http.get(`${environment.backoffice}/about`);
+  }
+
   subscibe(subscriber: any){
     return this.http.post(`${environment.newsletter.endpoint}/subscribers?client_key=${environment.newsletter.clientKey}&client_secret=${environment.newsletter.clientSecret}`, subscriber);
   }

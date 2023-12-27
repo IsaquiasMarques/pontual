@@ -39,7 +39,7 @@
         </div>
         <div class="search-section w-[10.188rem] bg-white rounded-full px-6 py-3">
             <div class="input flex just gap-x-3 items-center w-full">
-                <input type="text" class="w-full placeholder:text-primary placeholder:font-medium placeholder:text-base font-medium text-base focus:outline-none text-primary"
+                <input type="text" [(ngModel)]="this.searchInput" (input)="searchPost()" class="w-full placeholder:text-primary placeholder:font-medium placeholder:text-base font-medium text-base focus:outline-none text-primary"
                 name="" id="" placeholder="Pesquisar">
                 <button>
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,6 +53,25 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<div class="search-panel w-full">
+    <div class="limited-container flex justify-end items-start">
+        <div class="posts-search-container no-scroll overflow-y-auto w-full px-5 xl:w-[33%] rounded-b-lg bg-[#F9F9F9]  flex flex-col sm:flex-row xl:flex-col gap-y-3 gap-x-10 xl:gap-10 xl-1440:gap-0 sm:overflow-x-auto"
+        [ngClass]="{ 'h-[100vh] xl:h-[500px] md:max-h-[300px] xl:max-h-[500px]': this.searchedPosts.length > 0, 'h-[0px]': !(this.searchedPosts.length > 0) }"
+        >
+            <pontual-post-card
+            *ngFor="let post of this.searchedPosts"
+            [cardType]="'short'"
+            [postImagePath]="post.imagePath"
+            [postTitle]="post.title"
+            [postSlug]="post.slug"
+            [postCategory]="post.categories[0].name"
+            [postAuthor]="post.author"
+            [postCreatedAt]="post.created_at"
+            />
+        </div>
     </div>
 </div>
 

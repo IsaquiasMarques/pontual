@@ -184,10 +184,18 @@ img{
 .the-content h6,
 .the-content hr,
 .the-content p,
+.body > p,
 .the-content p strong,
 .the-content pre{
     margin: revert;
-    font-family: 'Inter';
+    font-family: 'Inter' !important;
+}
+
+.body > p{
+    margin: 40px 0px;
+    color: #808080;
+    font-size: 1.125rem/* 18px */;
+    line-height: 1.75rem/* 28px */;
 }
 .the-content p:nth-child(1){
     margin-top: 0px !important;

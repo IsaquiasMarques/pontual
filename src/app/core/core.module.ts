@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from './api/api.service';
 import { TwoDigitsFormaterPipe } from './pipes/two-digits/two-digits-formater.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AboutDataCenter } from './services/data/datacenter.service';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   providers: [
     CoreFacade,
-    ApiService
+    ApiService,
+    AboutDataCenter
   ]
 })
 export class CoreModule { }
