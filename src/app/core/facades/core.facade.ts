@@ -19,6 +19,7 @@ export class CoreFacade{
         private aboutDataCenter: AboutDataCenter
     ){
         this.api.getAboutInfo().subscribe((incomingData: any) => {
+            this.aboutDataCenter.weatherAppKey.next(incomingData.weather_app_id);
             this.aboutDataCenter.contacts.next(incomingData.contactos[0]);
             this.aboutDataCenter.team.next(incomingData.equipa);
             this.aboutDataCenter.editorialStatus.next(incomingData.estatuto_editorial);
@@ -39,6 +40,10 @@ export class CoreFacade{
 
     getAllCategories(): Observable<CategoriesModel[]>{
         return this.api.allCategories();
+    }
+
+    getGeolocationCoordinates(latitude: number, longitude: number): Observable<any>{
+        return this.api.getGeolocationCoordinates(latitude, longitude);
     }
 
     searchPostsByTerm(term: string): Observable<PostsModel[]>{

@@ -7,6 +7,7 @@ import { ADS_WANTED_FIELDS, CATEGORIES_WANTED_FIELDS, POSTS_WANTED_FIELDS } from
 import { LIMIT_OF_CATEGORIES_ON_MENU, LIMIT_OF_POSTS_PER_CATEGORIES_ON_HOME_PAGE, LIMIT_OF_RECENT_POSTS } from '@core/constants/limitations';
 import { HOME_PAGE_INDEX_ID, READING_PAGE_INDEX_ID, RESULTS_PAGE_INDEX_ID, SEE_POSTS_PAGE_INDEX_ID } from '@core/constants/pages';
 import { CATEGORY_CONTAINER_ID, CATEGORY_CONTAINER_LABEL, CATEGORY_CONTAINER_SLUG } from '@core/mock/Categories.mock';
+import { AboutDataCenter } from '@core/services/data/datacenter.service';
 
 import { transformWPDataFormatIntoLocalDataFormat } from '@shared/helpers/functions/posts.funcs';
 
@@ -23,7 +24,10 @@ export class ApiService {
   private readonly categoriesWithPosts$: BehaviorSubject<CategoriesWithPostsModel[]> = new BehaviorSubject<CategoriesWithPostsModel[]>([])
   private readonly ads$: BehaviorSubject<AdsModel[]> = new BehaviorSubject<AdsModel[]>([]);
 
-  constructor(private http: HttpClient){
+  constructor(
+    private http: HttpClient,
+    private abourDataCenter: AboutDataCenter
+  ){
     this.http.get<CategoriesModel[]>(`${environment.backoffice}/categories?${CATEGORIES_WANTED_FIELDS}`)
              .pipe(
                   // order categories by number of posts
@@ -281,6 +285,29 @@ export class ApiService {
                         return transformWPDataFormatIntoLocalDataFormat(nonTransformedData);
                       })
                     );
+  }
+
+  getGeolocationCoordinates(latitude: number, longitude: number): Observable<any>{
+
+    let response: BehaviorSubject<any> = new BehaviorSubject<any>({});
+
+    let inter = setInterval(() => {
+
+      if(this.abourDataCenter.weatherAppKey.getValue() != ''){
+        this.http.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${this.abourDataCenter.weatherAppKey.getValue()}&units=metric`).subscribe({
+          next: (incomingData: any) => {
+            response.next(incomingData);
+          }
+        });
+        clearInterval(inter);
+      }else{
+
+      }
+      
+    }, 1000)
+
+    return response;
+
   }
 
   getAboutInfo(){

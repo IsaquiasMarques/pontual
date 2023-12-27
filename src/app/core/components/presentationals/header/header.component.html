@@ -19,12 +19,19 @@
     <div class="column">
         <div class="country-temperature flex gap-2 justify-start items-center">
             <img src="assets/svg/icons/header/temperature.svg" alt="">
-            <p class="font-bold">{{ temperatureInCelsium }}º C</p>
+            <p class="font-bold">{{ temperatureInCelsium$ | async }}º C</p>
             <span class="text-[1rem]">&#x2022;</span>
             <p class="font-bold">{{ hours$ | async | twoDigitsFormat }} : {{ minutes$ | async | twoDigitsFormat }}</p>
         </div>
         <div>
-            <p class="text-grayText">Luanda, Angola</p>
+            <p class="text-grayText">
+                <span *ngIf="(this.locationSecondary.getValue() !== '')">
+                    {{ this.locationSecondary | async }},    
+                </span>
+                <span *ngIf="(this.locationPrimary.getValue() !== '')">
+                    {{ this.locationPrimary | async }}
+                </span>
+            </p>
         </div>
     </div>
 </div>
