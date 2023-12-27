@@ -5,6 +5,7 @@ import { ApiService } from '@core/api/api.service';
 import { CategoriesModel } from '@core/base-models/categories.model';
 import { CoreFacade } from '@core/facades/core.facade';
 import { CATEGORY_CONTAINER_LABEL } from '@core/mock/Categories.mock';
+import { AboutDataCenter } from '@core/services/data/datacenter.service';
 import { gototop } from '@shared/helpers/functions/scroll';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
@@ -21,7 +22,7 @@ export class AppComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     public coreFacade: CoreFacade,
-    
+    public aboutDataCenter: AboutDataCenter,
     private apiService: ApiService,
     @Inject(PLATFORM_ID) private platformId: any,
     private _ngZone: NgZone
