@@ -138,6 +138,11 @@
 </div>
 
 <div class="posts-section relative mt-24 mb-52">
+
+    <div class="no-posts-found my-10" *ngIf="!(this.postsSectionBeforeAdvertisement.length > 0) && !(this.postsSectionAfterAdvertisement.length > 0)">
+        <h1 class=" text-xl font-bold"> Não foram encontradas publicações.</h1>
+    </div>
+
     <div class="posts-container postsBeforeAdvertisement flex w-full flex-wrap gap-x-12 gap-y-16 justify-center lg:justify-start items-stretch">
 
         <pontual-post-card
