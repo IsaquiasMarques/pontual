@@ -8,6 +8,8 @@ import { ScreenDimentions } from '@core/services/window/screen-dimentions.servic
 import { PONTUAL_TEAM, PontualTeam, ROLE_IN_CASE_POST_OWNER_IS_CHAT_GPT, USER_ROLE_FROM_BACKOFFICE_NOT_INCLUDED_ON_PONTUAL_TEAM } from '@core/mock/team.mock';
 import { MetaTagsService } from '@shared/services/meta/meta-tags.service';
 import { isPlatformBrowser } from '@angular/common';
+import { AboutDataCenter } from '@core/services/data/datacenter.service';
+import { pontualTeamDataTransformer } from 'src/app/feature-modules/about/services/transformer/team';
 
 @Component({
   selector: 'pontual-post',
@@ -39,7 +41,8 @@ export class PostComponent implements OnInit {
     public screenDimentions: ScreenDimentions,
     private metaTagService: MetaTagsService,
     @Inject(PLATFORM_ID) private platformId: any,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private aboutDataCenter: AboutDataCenter
   ){ }
 
   ngOnInit(): void {
@@ -70,13 +73,13 @@ export class PostComponent implements OnInit {
   getPersonRoleByName(personName?: string): string{
 
     if(personName?.toLocaleLowerCase() === "chat-gpt"){
-      return ROLE_IN_CASE_POST_OWNER_IS_CHAT_GPT;
+      return ROLE_IN_CASE_POST_OWNER_IS_CHAT_GPT; // Inteligência Artificial
     }
     
-    let findedPerson: PontualTeam | 'not-found' = PONTUAL_TEAM.find( (person: PontualTeam) => person.name === personName ) ?? 'not-found';
+    let findedPerson: PontualTeam | 'not-found' = (pontualTeamDataTransformer(this.aboutDataCenter.team.getValue()) ?? PONTUAL_TEAM).find( (person: PontualTeam) => person.name === personName ) ?? 'not-found';
 
     if(findedPerson == 'not-found'){
-      return USER_ROLE_FROM_BACKOFFICE_NOT_INCLUDED_ON_PONTUAL_TEAM;
+      return USER_ROLE_FROM_BACKOFFICE_NOT_INCLUDED_ON_PONTUAL_TEAM; // Jornalista
     }
 
     return findedPerson.role;
