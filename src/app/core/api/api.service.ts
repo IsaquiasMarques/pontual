@@ -28,7 +28,7 @@ export class ApiService {
     private http: HttpClient,
     private abourDataCenter: AboutDataCenter
   ){
-    this.http.get<CategoriesModel[]>(`${environment.backoffice}/categories?${CATEGORIES_WANTED_FIELDS}`)
+    this.http.get<CategoriesModel[]>(`${environment.backoffice}/categories?per_page=100&${CATEGORIES_WANTED_FIELDS}`)
              .pipe(
                   // order categories by number of posts
                   map((nonOrderedData: any[]) => {
@@ -74,11 +74,13 @@ export class ApiService {
                   map((TransformeData: CategoriesModel[]) => {
                     if(TransformeData.length > LIMIT_OF_CATEGORIES_ON_MENU){
 
+                      let numberOfCategoriesToTransport: number = (TransformeData[0].id === CATEGORY_CONTAINER_ID) ? TransformeData.length - 2 : TransformeData.length - 1;
                       let subcategories: CategoriesModel[] = [];
 
                       for (let index = LIMIT_OF_CATEGORIES_ON_MENU; index <= TransformeData.length - 1; index++) {
-                        let splicedItem: CategoriesModel[] = TransformeData.splice(index, 1);
-                        subcategories.push(splicedItem[0]);
+                        let splicedItems: CategoriesModel[] = TransformeData.splice(index, numberOfCategoriesToTransport);
+                        // console.log(splicedItems)
+                        subcategories = splicedItems;
                       }
 
                       TransformeData.unshift({

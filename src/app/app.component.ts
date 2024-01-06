@@ -17,7 +17,9 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 export class AppComponent implements OnInit, OnChanges, AfterViewInit {
   title = '';
   @ViewChild('navigationContainer') navigationElement!: ElementRef<HTMLElement>;
+  @ViewChild('pontualNewsFooterContainer') pontualNewsFooterContainer!: ElementRef<HTMLElement>;
   bodyElementMarginTop: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  plusPontualContainerMaxHeight: BehaviorSubject<number> = new BehaviorSubject<number>(20);
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -53,6 +55,16 @@ export class AppComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.bodyElementMarginTop.next(this.navigationElement.nativeElement.clientHeight);
+    
+    if(isPlatformBrowser(this.platformId)){
+      let interv = setInterval(() => {
+        if(!(this.pontualNewsFooterContainer.nativeElement.clientHeight == 0)){
+          this.plusPontualContainerMaxHeight.next(this.pontualNewsFooterContainer.nativeElement.clientHeight);
+          clearInterval(interv);
+        }
+      }, 1000);
+    }
+
     this.changeDetectorRef.detectChanges();
   }
 
