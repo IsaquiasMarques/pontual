@@ -39,26 +39,28 @@ export class HeaderComponent implements OnInit, OnChanges {
 
   getCoordinates(){
 
-    if ("geolocation" in navigator) {
-
-      navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
-        this.latitude.next(position.coords.latitude);
-        this.longitude.next(position.coords.longitude);
-
-        this.coreFacade.getGeolocationCoordinates(this.latitude.getValue(), this.longitude.getValue()).subscribe({
-          next: (incomingData: any) => {
-            this.temperatureInCelsium$.next(Math.floor(incomingData.main?.temp))
-            this.locationSecondary.next(incomingData.name);
-            this.locationPrimary.next(COUNTRY_CODES[incomingData.sys?.country] ?? 'Unknown country code');
-          }
+    if(isPlatformBrowser(this.platformId)){
+      if ("geolocation" in navigator) {
+  
+        navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
+          this.latitude.next(position.coords.latitude);
+          this.longitude.next(position.coords.longitude);
+  
+          this.coreFacade.getGeolocationCoordinates(this.latitude.getValue(), this.longitude.getValue()).subscribe({
+            next: (incomingData: any) => {
+              this.temperatureInCelsium$.next(Math.floor(incomingData.main?.temp))
+              this.locationSecondary.next(incomingData.name);
+              this.locationPrimary.next(COUNTRY_CODES[incomingData.sys?.country] ?? 'Unknown country code');
+            }
+          });
+          
+        }, function(error) {
+          console.error("Erro ao obter a localização: " + error.message);
         });
-        
-      }, function(error) {
-        console.error("Erro ao obter a localização: " + error.message);
-      });
-
-    } else {
-      console.log("Geolocalização não suportada pelo navegador");
+  
+      } else {
+        console.log("Geolocalização não suportada pelo navegador");
+      }
     }
   }
 

@@ -103,7 +103,7 @@
                         Notícias pontual
                     </h4>
                 </div>
-                <div class="categories-list mt-2">
+                <div class="categories-list mt-2" #pontualNewsFooterContainer>
                     <ul>
                         <li class="" *ngFor="let category of (this.getHeaderCategories() | async)">
                             <a
@@ -120,7 +120,9 @@
                         + Pontual
                     </h4>
                 </div>
-                <div class="categories-list mt-2">
+                <div class="categories-list mt-2 overflow-y-auto"
+                [style.maxHeight.px]="this.plusPontualContainerMaxHeight | async"
+                >
                     <ul>
                         <li class="" *ngFor="let category of (this.getHeaderCategories() | async)">
                             <div *ngIf="category.label == this.containerLabel">
@@ -141,7 +143,9 @@
                     + Pontual
                 </h4>
             </div>
-            <div class="categories-list mt-2">
+            <div class="categories-list mt-2 overflow-y-auto no-scroll"
+            [style.maxHeight.px]="this.plusPontualContainerMaxHeight | async"
+            >
                 <ul>
                     <li class="" *ngFor="let category of (this.getHeaderCategories() | async)">
                         <div *ngIf="category.label == this.containerLabel">
