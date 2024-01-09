@@ -11,7 +11,7 @@
     "test": "ng test",
     "dev:ssr": "ng run pontual:serve-ssr",
     "serve:ssr": "node dist/pontual/server/main.js",
-    "build:ssr": "ng build && ng run pontual:server",
+    "build:ssr": "ng build && ng run pontual:server:production",
     "prerender": "ng run pontual:prerender"
   },
   "private": true,
