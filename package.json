@@ -11,8 +11,9 @@
     "test": "ng test",
     "dev:ssr": "ng run pontual:serve-ssr",
     "serve:ssr": "node dist/pontual/server/main.js",
-    "build:ssr": "ng build && ng run pontual:server:production",
-    "prerender": "ng run pontual:prerender"
+    "build:ssr": "ng build && ng run pontual:server",
+    "prerender": "ng run pontual:prerender",
+    "vercel-build": "npm run build:ssr"
   },
   "private": true,
   "dependencies": {
