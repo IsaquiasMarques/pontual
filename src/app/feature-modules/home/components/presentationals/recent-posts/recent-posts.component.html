@@ -48,7 +48,7 @@
                     ></div>
                 </div>
                 <div class="next">
-                    <a href="javascript:void(0)" (click)="next(this.recentPosts, 'recent-posts-section .posts-container', 'posts')" [class]="(this.activeIndex < (this.recentPosts.length - 2)) ? 'cursor-pointer' : 'cursor-auto'">
+                    <a href="javascript:void(0)" (click)="next(this.recentPosts, 'recent-posts-section .posts-container', 'posts')" [class]="(this.activeIndex < (this.recentPosts.length - this.numberOfPostsWithFullContent)) ? 'cursor-pointer' : 'cursor-auto'">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- #D3352A - Enabled -->
                             <path d="M4 12H20M20 12L14 6M20 12L14 18" [attr.stroke]="(this.activeIndex < (this.recentPosts.length - this.numberOfPostsWithFullContent)) ? '#D3352A' : '#CDD5E0'" stroke-width="1.64" stroke-linecap="round" stroke-linejoin="round"/>

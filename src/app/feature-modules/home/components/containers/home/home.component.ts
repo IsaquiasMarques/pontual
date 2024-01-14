@@ -16,7 +16,6 @@ export class HomeComponent implements OnInit, OnChanges{
 
   constructor(
     private homeFacade: HomeFacade,
-    public screenDimentions: ScreenDimentions
   ){}
 
   bannerPosts: PostsModel[] = [];
