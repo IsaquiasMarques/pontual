@@ -17,7 +17,7 @@ export class RecentPostsComponent implements OnInit, OnChanges {
 
   @Input() recentPosts: PostsModel[] = [];
   activeIndex: number = 0;
-  numberOfPostsWithFullContent: number = (this.screenDimentions.getScreenType == 'mobile') ? 1 : 2;
+  numberOfPostsWithFullContent: number = 1;
 
   ngOnInit(): void {
     

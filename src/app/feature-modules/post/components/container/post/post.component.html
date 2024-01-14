@@ -1,8 +1,7 @@
 <div class="advertisement mb-10" *ngIf="this.ads && this.ads[0]">
     <pontual-ads
     [topLabel]="false"
-    [height]="  (this.screenDimentions.getScreenType == 'tablet-lg' ||
-                this.screenDimentions.getScreenType == 'mobile') ? 'h-[150px]' : 'h-[250px]'"
+    [height]="'h-[150px] sm:h-[250px]'"
     [ad]="this.ads[0]"
     />
 </div>
@@ -157,7 +156,7 @@
                 <div class="advertisement mb-10" *ngIf="this.ads && this.ads[1]">
                     <pontual-ads
                     [topLabel]="true"
-                    [height]="'h-[560px]'"
+                    [height]="'h-[360px] xl:h-[560px]'"
                     [ad]="this.ads[1]"
                     />
                 </div>

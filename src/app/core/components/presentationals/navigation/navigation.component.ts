@@ -6,7 +6,7 @@ import { PostsModel } from '@core/base-models/posts.model';
 import { CoreFacade } from '@core/facades/core.facade';
 import { CATEGORY_CONTAINER_LABEL } from '@core/mock/Categories.mock';
 
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { PostsFacade } from 'src/app/feature-modules/posts/facades/posts.facade';
 
 @Component({
@@ -47,6 +47,10 @@ export class NavigationComponent implements OnInit {
 
   getHeaderCategories(): Observable<CategoriesModel[]>{
     return this.coreFacade.getHeaderCategories();
+  }
+
+  setHeightByChildrens(category: CategoriesModel, defaultClientHeigth: number = 48): Observable<number>{
+    return of((category.childrens?.length ?? 0) * defaultClientHeigth);
   }
 
   navigateToDesktop(categoryLabel: string, categorySlug: string){
