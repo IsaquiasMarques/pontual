@@ -1,0 +1,182 @@
+<div class="advertisement mb-10" *ngIf="this.ads && this.ads[0]">
+    <pontual-ads
+    [topLabel]="false"
+    [height]="'h-[150px] sm:h-[250px]'"
+    [ad]="this.ads[0]"
+    />
+</div>
+<div class="filter-section mt-28 xl:flex xl:justify-between xl:items-stretch">
+    <div class="static-col w-full">
+        <div class="title flex justify-start items-center gap-4">
+            <h2 class="text-[#030616] text-2xl font-bold leading-8">
+                {{ this.theCategoryLabel$ | async }}
+            </h2>
+            <span class="text-[#808080] text-base font-normal leading-6 font-['Inter']"> {{ this.theCategoryCount$ | async }} notícias </span>
+        </div>
+        <div class="search-input mt-6 lg:w-[24.625rem]">
+            <div class="search-container w-full bg-[#F6F6F6] border border-[#eaeaea66] py-3 px-4 rounded-lg flex gap-x-3 items-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 20L16.1333 16.1333M18.2222 11.1111C18.2222 15.0385 15.0385 18.2222 11.1111 18.2222C7.18375 18.2222 4 15.0385 4 11.1111C4 7.18375 7.18375 4 11.1111 4C15.0385 4 18.2222 7.18375 18.2222 11.1111Z" stroke="#D3352A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>                    
+                <input type="text" class="focus:outline-none w-full bg-transparent" name="" [(ngModel)]="this.searchTerm" (keyup)="this.filterPosts()" placeholder="Pesquisar notícias..." id="">
+            </div>
+        </div>
+    </div>
+    <div class="filters-inputs-col xl:w-[90%] relative">
+        <div class="inputs-section lg:absolute w-full top-0 left-0 z-[2] py-3 gap-8 flex flex-col lg:flex-row lg:justify-end lg:items-center">
+            <div class="label flex mt-2 gap-1 lg:mt-0 lg:gap-2 justify-center items-center">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 8H12M2 4H14M6 12H10" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <label class="font-['Inter'] text-[#808080] text-base font-semibold">Filtros</label>
+            </div>
+            <div class="inputs flex gap-x-8 flex-col lg:flex-row justify-start lg:justify-center lg:items-center">
+                <div class="categories relative">
+                    <select name="" id=""
+                    [(ngModel)]="this.selectedCategoryForFilter"
+                    (change)="this.filterPosts()"
+                    (change)="this.identifyCategory()"
+                    class="border cursor-pointer w-full px-4 pr-10 py-2 font-['Inter'] text-base font-medium border-[#F6F7F9] bg-[#FAFAFA] rounded outline-none [-webkit-appearance:none] [-moz-appearance:none]"
+                    >
+                        <option value="0" selected disabled>Notícias</option>
+                        <option *ngFor="let category of this.categories" value="{{ category.id }}">
+                            {{ category.name }}
+                        </option>
+                    </select>
+                    <svg class="absolute top-1/2 -translate-y-1/2 right-4" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="dates my-3 lg:my-0 relative">
+                    <select name="" id=""
+                    [(ngModel)]="this.selectedDateForFilter"
+                    (change)="identifyDateByValue()"
+                    (change)="this.filterPosts()"
+                    class="border cursor-pointer w-full px-4 pr-10 py-2 font-['Inter'] text-base font-medium border-[#F6F7F9] bg-[#FAFAFA] rounded outline-none [-webkit-appearance:none] [-moz-appearance:none]"
+                    >
+                        <option class="bg-[#FAFAFA]" [value]="-100" selected disabled>Data da publicação</option>
+                        <option class="bg-[#FAFAFA]" [value]="this.any_date">Qualquer data</option>
+                        <option class="bg-[#FAFAFA]" [value]="this.today">Hoje</option>
+                        <option class="bg-[#FAFAFA]" [value]="this.one_week_ago">Há uma semana</option>
+                        <option class="bg-[#FAFAFA]" [value]="this.two_weeks_ago">Há duas semanas</option>
+                        <option class="bg-[#FAFAFA]" [value]="this.one_month_ago">Há um mês</option>
+                        <option class="bg-[#FAFAFA]" [value]="this.two_months_ago">Há dois meses</option>
+                        <option class="bg-[#FAFAFA]" [value]="this.one_year_ago">Há um ano</option>
+                    </select>
+                    <svg class="absolute top-1/2 -translate-y-1/2 right-4" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="author relative">
+                    <select
+                    name=""
+                    [(ngModel)]="this.selectedAuthorForFilter"
+                    (change)="this.filterPosts()"
+                    id=""
+                    class="border cursor-pointer w-full px-4 pr-10 py-2 font-['Inter'] text-base font-medium border-[#F6F7F9] bg-[#FAFAFA] rounded outline-none [-webkit-appearance:none] [-moz-appearance:none]">
+                        <option value="" selected disabled>Autor</option>
+                        <option *ngFor="let author of this.authors" value="{{ author }}">
+                            {{ author }}
+                        </option>
+                    </select>
+                    <svg class="absolute top-1/2 -translate-y-1/2 right-4" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="filters-previw lg:absolute w-full bottom-0 left-0 z-[1] flex flex-col lg:flex-row gap-4 lg:justify-end lg:items-end">
+            
+            <div *ngIf="this.selectedCategoryForFilter != 0" class="selected-category rounded-full px-2 py-1 overflow-hidden bg-[#FAFAFA] text-[#808080] font-['Inter'] font-normal">
+                <a href="javascript:void(0)" (click)="clearFilter('category')" class="block">
+                    <div class="category flex gap-2 justify-center items-center">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.3332 4.66699L4.6665 11.3337M4.6665 4.66699L11.3332 11.3337" stroke="#626262" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <label class="">{{ this.selectedCategoryLabel }}</label>
+                    </div>
+                </a>
+            </div>
+            <div *ngIf="this.selectedDateForFilter != -100" class="selected-date rounded-full px-2 py-1 overflow-hidden bg-[#FAFAFA] text-[#808080] font-['Inter'] font-normal">
+                <a href="javascript:void(0)" (click)="this.clearFilter('date')" class="block">
+                    <div class="date flex gap-2 justify-center items-center">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.3332 4.66699L4.6665 11.3337M4.6665 4.66699L11.3332 11.3337" stroke="#626262" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        {{ this.selectedDateLabel }}
+                    </div>
+                </a>
+            </div>
+            <div *ngIf="this.selectedAuthorForFilter != ''" class="selected-author rounded-full px-2 py-1 overflow-hidden bg-[#FAFAFA] text-[#808080] font-['Inter'] font-normal">
+                <a href="javascript:void(0)" (click)="this.clearFilter('author')" class="block">
+                    <div class="author flex gap-2 justify-center items-center">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.3332 4.66699L4.6665 11.3337M4.6665 4.66699L11.3332 11.3337" stroke="#626262" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        {{ this.selectedAuthorForFilter }}
+                    </div>
+                </a>
+            </div>
+            <div *ngIf="
+                this.selectedCategoryForFilter != 0 ||
+                this.selectedDateForFilter != -100 ||
+                this.selectedAuthorForFilter != ''
+            " class="clear-selection rounded-full px-2 py-1 overflow-hidden bg-[#d3352a1a] border border-[#d3352a33] text-[#808080] font-['Inter'] font-normal cursor-pointer">
+                <a href="javascript:void(0)" (click)="this.clearFilter('all')" class="block">
+                    <div class="clear text-primary flex gap-2 justify-center items-center">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.1665 5.83333C1.1665 5.83333 2.33608 4.23979 3.28624 3.28898C4.23641 2.33816 5.54944 1.75 6.99984 1.75C9.89933 1.75 12.2498 4.1005 12.2498 7C12.2498 9.89949 9.89933 12.25 6.99984 12.25C4.60637 12.25 2.58699 10.6483 1.95503 8.45833M1.1665 5.83333V2.33333M1.1665 5.83333H4.6665" stroke="#D3352A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Limpar
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="posts-section relative mt-24 mb-52">
+
+    <div class="no-posts-found my-10" *ngIf="!(this.postsSectionBeforeAdvertisement.length > 0) && !(this.postsSectionAfterAdvertisement.length > 0)">
+        <h1 class=" text-xl font-bold"> Não foram encontradas publicações.</h1>
+    </div>
+
+    <div class="posts-container postsBeforeAdvertisement flex w-full flex-wrap gap-x-12 gap-y-16 justify-center lg:justify-start items-stretch">
+
+        <pontual-post-card
+        *ngFor="let post of postsSectionBeforeAdvertisement; let index = index"
+        [isFirstItem]="(index == 0) ? true : false"
+        [showPostImage]="true"
+        [postImagePath]="post.imagePath"
+        [postTitle]="post.title"
+        [postSlug]="post.slug"
+        [postCategory]="post.categories[0].name"
+        [postHighlightDescription]="post.highlightDescription"
+        [postAuthor]="post.author"
+        [postCreatedAt]="post.created_at"
+        />
+
+    </div>
+    <div class="advertisement my-28" *ngIf="this.ads && this.ads[1]">
+        <pontual-ads
+        [ad]="this.ads[1]"
+        [height]="'h-[144px] xl:h-[523px]'"
+        />
+    </div>
+    
+    <div *ngIf="this.postsSectionAfterAdvertisement.length > 0" class="posts-container postsAfterAdvertisement flex w-full flex-wrap gap-x-16 gap-y-16 justify-start items-stretch">
+        <pontual-post-card
+        *ngFor="let post of postsSectionAfterAdvertisement; let index = index"
+        [isFirstItem]="(index == 0) ? true : false"
+        [showPostImage]="true"
+        [postImagePath]="post.imagePath"
+        [postTitle]="post.title"
+        [postSlug]="post.slug"
+        [postCategory]="post.categories[0].name"
+        [postHighlightDescription]="post.highlightDescription"
+        [postAuthor]="post.author"
+        [postCreatedAt]="post.created_at"
+        />
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="header-container text-[.8rem] py-5 flex justify-between items-stretch">
+    <div class="columm hidden sm:block">
+        <div class="date mb-1">
+            <p class="uppercase font-bold">
+                {{ today | date: 'fullDate' | translate_pt_ao }}
+            </p>
+        </div>
+        <div class="tiny-text text-grayText">
+            <p>Fonte Credível de Informação</p>
+        </div>
+    </div>
+    <div class="column">
+        <div class="logo">
+            <a routerLink="/">
+                <img src="assets/svg/static/logo-actual.svg" alt="">
+            </a>
+        </div>
+    </div>
+    <div class="column">
+        <div class="country-temperature flex gap-2 justify-start items-center">
+            <img src="assets/svg/icons/header/temperature.svg" alt="">
+            <p class="font-bold">{{ temperatureInCelsium$ | async }}º C</p>
+            <span class="text-[1rem]">&#x2022;</span>
+            <p class="font-bold">{{ hours$ | async | twoDigitsFormat }} : {{ minutes$ | async | twoDigitsFormat }}</p>
+        </div>
+        <div>
+            <p class="text-grayText">
+                <span *ngIf="(this.locationSecondary.getValue() !== '')">
+                    {{ this.locationSecondary | async }},    
+                </span>
+                <span *ngIf="(this.locationPrimary.getValue() !== '')">
+                    {{ this.locationPrimary | async }}
+                </span>
+            </p>
+        </div>
+    </div>
+</div>

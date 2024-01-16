@@ -1,0 +1,103 @@
+<div class="body-container" *ngIf="this.pageStructure.sections">
+    <div *ngFor="let section of this.pageStructure.sections; let index = index">
+        <div class="post-section my-12 lg:my-20 xl:my-24" *ngIf="section.type == 'post'">
+            <div class="main-title mb-12 lg:mb-12 xl:mb-16">
+                <h1>
+                    <pontual-chip
+                    [chipPadding]="'p-0'"
+                    [icon]="true"
+                    [iconColor]="'#D3352A'"
+                    [iconWidth]="24"
+                    [iconHeight]="24"
+                    [bgColor]="'white'"
+                    [label]="section.sectionTitle"
+                    [textColor]="'secondary'"
+                    [labelWeight]="'font-bold'"
+                    [labelSize]="'text-2xl'"
+                    [gap]="'gap-3'"
+                    />
+                </h1>
+            </div>
+            <div class="posts-section relative flex justify-center md:justify-start lg:block"
+            [ngClass]="{
+                'overflow-x-auto': !section.postsWrap,
+            }"
+            [className]="'scrollEnabled-' + section.sectionSlug"
+            >
+                <div class="posts-container flex w-fit md:w-full lg:w-max flex-col md:flex-row md:flex-wrap lg:flex-nowrap lg:flex-row gap-x-16 gap-y-12 items-center lg:justify-start lg:items-stretch"
+                [ngClass]="
+                {
+                    'xl:w-max': !section.postsWrap,
+                    'w-full flex-wrap': section.postsWrap,
+                    'md:justify-around': (section.data.length % 2) == 0,
+                    'md:justify-start': (section.data.length % 2) != 0,
+                }"
+                >
+        
+                    <pontual-post-card
+                    *ngFor="let post of section.data; let index = index"
+                    [isFirstItem]="(index == 0) ? true : false"
+                    [showPostImage]="true"
+                    [postImagePath]="post.imagePath"
+                    [postTitle]="post.title"
+                    [postSlug]="post.slug"
+                    [postCategory]="post.categories[0].name"
+                    [postHighlightDescription]="post.highlightDescription"
+                    [postAuthor]="post.author"
+                    [postCreatedAt]="post.created_at"
+                    />
+        
+                    <div class="button flex items-center justify-center"
+                    *ngIf="(section.data.length > 7) || (this.screenDimentions.getScreenType == 'mobile')"
+                    >
+                        <a routerLink="/posts/{{ section.sectionSlug.toLowerCase() }}" class=" flex gap-4 bg-primary text-white rounded-full py-4 px-8">
+                            Ver todas as notícias
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- #D3352A - Enabled -->
+                                <path d="M4 12H20M20 12L14 6M20 12L14 18" [attr.stroke]="'white'" stroke-width="1.64" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="indicators hidden lg:flex justify-end mt-16"
+            *ngIf="!section.postsWrap && section.data.length > this.numberOfPostsWithFullContent"
+            >
+                <div class="flex gap-x-6 items-center justify-center">
+                    <div class="prev">
+                        <a href="javascript:void(0)" (click)="prev(section.data, section.sectionSlug)" [class]="(this.activeIndexes[section.sectionSlug] > 0) ? 'cursor-pointer' : 'cursor-auto'">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- #D3352A - Enabled -->
+                                <path d="M20 12H4M4 12L10 6M4 12L10 18"[attr.stroke]="(this.activeIndexes[section.sectionSlug] <= 0) ? '#CDD5E0' : '#D3352A'" stroke-width="1.64" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>                            
+                        </a>
+                    </div>
+                    <div class="indicators-pointers flex gap-x-2 items-center justify-center">
+                        <div
+                        *ngFor="let dot of section.data; let index = index; let last = last"
+                        class="w-2 h-2 rounded-full"
+                        [ngClass]="{ 'active': (this.activeIndexes[section.sectionSlug]) == index, 'hidden': last}"
+                        >
+                    </div>
+                    </div>
+                    <div class="next">
+                        <a href="javascript:void(0)" (click)="next(section.data, section.sectionSlug)" [class]="(this.activeIndexes[section.sectionSlug] < (this.section.data.length - 2)) ? 'cursor-pointer' : 'cursor-auto'">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- #D3352A - Enabled -->
+                                <path d="M4 12H20M20 12L14 6M20 12L14 18" [attr.stroke]="(this.activeIndexes[section.sectionSlug] >= (this.section.data.length - 2)) ? '#CDD5E0' : '#D3352A'" stroke-width="1.64" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="ads-section my-24" *ngIf="section.type == 'advertisement'">
+            <div class="advertisement">
+                <pontual-ads [ad]="section.data" />
+            </div>
+        </div>
+    </div>
+    
+</div>

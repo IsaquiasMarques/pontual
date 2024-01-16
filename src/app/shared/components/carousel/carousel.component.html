@@ -1,0 +1,56 @@
+<div class="carousel-container overflow-x-hidden w-full h-full rounded-[0.25rem]" #carouselContainer>
+    <div class="flex items-stretch relative w-fit">
+        <div
+        *ngFor="let new of this.bannerPosts"
+        class="news relative w-screen h-[350px] xl:h-[617px] xl:w-[var(--max-w-1280)] xl-1440:w-[var(--max-w-1440)]"
+        id="bannerNews"
+        >
+            <div class="background-image relative w-full h-full bg-cover bg-center"
+            [style.backgroundImage]="new.imagePath.thumbnailImageSize | turnUrlable"
+            >
+                <img [ngSrc]="new.imagePath.fullImageSize" width="844" height="610"
+                (load)="appearWhenLoaded($event)"
+                [ngClass]="{
+                    'showLazyLoadImageWithTransition': this.imageMayAppear,
+                    'notShowLazyLoadImageWithTransition': !this.imageMayAppear
+                }"
+                class="w-full h-full opacity-0 object-cover object-center" alt="">
+            </div>
+            <div class="news-details z-[2] px-5 py-5 xl:px-20 xl:py-10 flex flex-col gap-y-6 justify-end items-start absolute top-0 left-0 w-full h-full">
+                <div class="main-title text-white">
+                    <a routerLink="/post/{{ new.slug }}">
+                        <h1 class="mb-5 text-[1.5rem] xl:text-[2.375rem] font-bold leading-[1.5rem] xl:leading-[2.625rem] " [innerHTML]="new.title">
+                            <!-- {{ new.title }} -->
+                        </h1>
+                    </a>
+                    <div class="excerpt w-[90%] md:w-[65%]">
+                        <p class=" text-base font-medium leading-6" [innerHTML]="new.highlightDescription">
+                            <!-- {{ new.highlightDescription }} -->
+                        </p>
+                    </div>
+                </div>
+                <div class="bottom-details flex justify-start items-center gap-4">
+                    <div class="category">
+                        <pontual-chip
+                        [bgColor]="'primary'"
+                        [textColor]="'white'"
+                        [label]="new.categories[0].name"
+                        [icon]="true"
+                        [iconColor]="'white'"
+                        />
+                    </div>
+                    <div class="created_at">
+                        <pontual-chip
+                        [bgColor]="'white'"
+                        [icon]="false"
+                        [textColor]="'secondary'"
+                        [label]="new.created_at"
+                        [iconColor]="'white'"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="overlay z-[1] absolute bottom-0 bg-black h-[65%] xl:h-[50%] w-full"></div>
+        </div>
+    </div>
+</div>
